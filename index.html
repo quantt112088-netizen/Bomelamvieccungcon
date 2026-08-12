@@ -116,9 +116,6 @@
   .member-row .pts{ font-size:12px; color:var(--ink-soft); font-weight:700; margin-right:4px; }
   .icon-btn{ border:none; background:var(--line); width:32px;height:32px; border-radius:10px; cursor:pointer; font-size:14px; }
 
-  .alarm-row{ display:flex; align-items:center; gap:12px; background:var(--card); border:2px solid var(--line); border-radius:16px; padding:14px; margin-bottom:10px; }
-  .alarm-row .time{ font-family:'Baloo 2'; font-size:24px; font-weight:800; flex:1; }
-  .alarm-row .lbl{ font-size:12px; color:var(--ink-soft); font-weight:700; }
   .switch{ position:relative; width:46px; height:26px; flex:0 0 auto; }
   .switch input{ opacity:0; width:0; height:0; }
   .slider{ position:absolute; inset:0; background:var(--line); border-radius:999px; cursor:pointer; transition:.2s; }
@@ -159,13 +156,6 @@
   .empty b{ color:var(--ink); }
   .toast{ position:fixed; top:16px; left:50%; transform:translateX(-50%) translateY(-30px); background:var(--ink); color:#fff; padding:12px 20px; border-radius:14px; font-family:'Baloo 2'; font-weight:700; font-size:14px; z-index:80; opacity:0; transition:.3s; }
   .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
-  .ring-screen{ position:fixed; inset:0; background:linear-gradient(160deg, var(--lav), var(--sky)); z-index:100; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#fff; }
-  .ring-screen.show{ display:flex; }
-  .ring-screen .bell{ font-size:80px; animation: shake 0.6s infinite; }
-  @keyframes shake{ 0%,100%{transform:rotate(0);} 25%{transform:rotate(-12deg);} 75%{transform:rotate(12deg);} }
-  .ring-screen h2{ font-size:28px; margin:14px 0 4px; }
-  .ring-screen p{ font-weight:700; opacity:.9; }
-  .stop-btn{ margin-top:30px; background:#fff; color:var(--lav); border:none; padding:16px 40px; border-radius:999px; font-family:'Baloo 2'; font-weight:800; font-size:18px; cursor:pointer; box-shadow:0 6px 0 rgba(0,0,0,0.15); }
   .note-box{ background:#fff; border:2px dashed var(--line); border-radius:14px; padding:12px 14px; font-size:12px; color:var(--ink-soft); margin-bottom:16px; line-height:1.5; }
 
   .full-screen{ position:fixed; inset:0; background:var(--cream); z-index:200; overflow-y:auto; display:none; }
@@ -177,6 +167,45 @@
   .setup-inner p.sub{ color:var(--ink-soft); font-size:13px; line-height:1.5; }
   .setup-inner textarea{ width:100%; min-height:110px; border-radius:12px; border:2px solid var(--line); padding:12px; font-family:monospace; font-size:12px; }
   .or-div{ text-align:center; color:var(--ink-soft); font-size:12px; font-weight:800; margin:16px 0; }
+
+  .badge-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .badge-chip{ display:flex; align-items:center; gap:5px; background:var(--line); color:var(--ink-soft); border-radius:999px; padding:5px 10px; font-size:11px; font-weight:800; opacity:.6; }
+  .badge-chip.earned{ background:linear-gradient(135deg, var(--sun), #FFD97D); color:var(--ink); opacity:1; box-shadow: 0 2px 0 rgba(58,46,39,0.15); }
+  .badge-chip .bi{ font-size:14px; }
+  .badge-chip .bp{ font-size:10px; opacity:.8; }
+
+  .special-tag{ position:absolute; top:8px; left:8px; background:linear-gradient(135deg, var(--coral), var(--sun)); color:#fff; font-size:10px; font-weight:800; padding:3px 8px; border-radius:999px; box-shadow:0 2px 0 rgba(58,46,39,0.15); }
+
+  .goal-card{ background:var(--card); border:2px solid var(--line); border-radius:20px; padding:16px; margin-bottom:14px; box-shadow: var(--shadow); }
+  .goal-head{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .goal-icon{ font-size:30px; }
+  .goal-txt b{ font-family:'Baloo 2'; font-size:15px; display:block; }
+  .goal-txt span{ font-size:12px; color:var(--ink-soft); font-weight:700; }
+  .goal-pts{ font-size:11px; color:var(--ink-soft); font-weight:700; margin-top:6px; text-align:right; }
+  .goal-empty{ text-align:center; font-size:13px; color:var(--ink-soft); font-weight:700; margin-bottom:10px; }
+
+  .rank-arrow{ font-size:13px; margin-left:4px; display:inline-block; animation: rankpop .6s ease; }
+  .rank-arrow.up{ color: var(--mint); }
+  .rank-arrow.down{ color: var(--coral); }
+  @keyframes rankpop{ 0%{ transform: scale(0.4); opacity:0; } 60%{ transform: scale(1.3); opacity:1; } 100%{ transform: scale(1); } }
+
+  .pet-tag{ display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700; color:var(--ink-soft); }
+  .pet-pick{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .pet-pick .pchip{ display:flex; align-items:center; gap:6px; padding:8px 10px; border-radius:12px; border:2px solid var(--line); cursor:pointer; background:#fff; font-size:12px; font-weight:700; }
+  .pet-pick .pchip.sel{ border-color: var(--ink); background: var(--cream); }
+
+  .streak-tag{ display:inline-flex; align-items:center; gap:5px; margin-top:6px; font-size:11px; font-weight:800; color:#B4530A; background:linear-gradient(135deg, #FFE9C4, #FFC98F); padding:5px 10px; border-radius:999px; }
+
+  .celebrate-overlay{ position:fixed; inset:0; z-index:300; pointer-events:none; display:none; align-items:center; justify-content:center; }
+  .celebrate-overlay.show{ display:flex; }
+  .confetti-field{ position:absolute; inset:0; overflow:hidden; }
+  .confetti-piece{ position:absolute; top:-20px; width:10px; height:14px; opacity:0.95; animation: confetti-fall linear forwards; }
+  @keyframes confetti-fall{ to{ transform: translateY(112vh) rotate(720deg); opacity:0.35; } }
+  .mascot-bubble{ display:flex; flex-direction:column; align-items:center; animation: mascotpop .45s ease; }
+  @keyframes mascotpop{ 0%{transform:scale(0.3); opacity:0;} 60%{transform:scale(1.15); opacity:1;} 100%{transform:scale(1);} }
+  .mascot-emoji{ font-size:76px; animation: mascotbounce .6s ease infinite; filter: drop-shadow(0 8px 10px rgba(0,0,0,0.15)); }
+  @keyframes mascotbounce{ 0%,100%{ transform: translateY(0) rotate(-6deg);} 50%{ transform: translateY(-18px) rotate(6deg);} }
+  .mascot-speech{ margin-top:10px; background:#fff; border-radius:16px; padding:10px 18px; font-family:'Baloo 2'; font-weight:800; font-size:15px; color:var(--ink); box-shadow: var(--shadow); max-width:260px; text-align:center; }
 </style>
 </head>
 <body>
@@ -252,7 +281,6 @@
     <button data-view="tasks"><span class="ic">🧹</span>Việc</button>
     <button data-view="board"><span class="ic">🏆</span>Bảng điểm</button>
     <button data-view="members"><span class="ic">👦</span>Thành viên</button>
-    <button data-view="alarm"><span class="ic">⏰</span>Báo thức</button>
   </div>
 
   <div class="view active" id="view-confirm">
@@ -283,13 +311,6 @@
     <div id="memberList"></div>
   </div>
 
-  <div class="view" id="view-alarm">
-    <div class="section-head"><h2>Báo thức nhắc việc</h2>
-      <button class="ghost-btn" id="addAlarmBtn">+ Thêm báo thức</button>
-    </div>
-    <div class="note-box">⚠️ Báo thức chỉ reo trên thiết bị nào đang mở sẵn app (Bố Mẹ hoặc Của Con) vào đúng giờ đó. Giờ báo thức được đồng bộ cho mọi máy.</div>
-    <div id="alarmList"></div>
-  </div>
 </div>
 
 <!-- SETTINGS SHEET -->
@@ -329,12 +350,26 @@
   <div class="sheet">
     <h3 id="kidModalTitle">Thêm thành viên</h3>
     <div class="field"><label>Tên bé</label><input type="text" id="kidNameInput" placeholder="VD: Bin"></div>
+    <div class="field"><label>Biệt danh ngộ nghĩnh (tuỳ chọn)</label><input type="text" id="kidNicknameInput" placeholder="VD: Sếp nhỏ, Boss tí hon..."></div>
     <div class="field"><label>Chọn hình đại diện</label><div id="kidAvatarPick"></div></div>
     <div class="field"><label>Chọn khung hình</label><div class="frame-pick" id="kidFramePick"></div></div>
     <div class="field"><label>Chọn màu</label><div class="color-pick" id="kidColorPick"></div></div>
+    <div class="field"><label>Linh vật đồng hành (sẽ lớn lên theo cấp độ)</label><div class="pet-pick" id="kidPetPick"></div></div>
     <div class="note-box" style="margin-bottom:0;">🔒 = bé cần lên tới cấp đó mới tự mở khoá được trong app "Của Con". Ở đây bố mẹ vẫn chọn được mọi icon/khung cho con.</div>
     <button class="primary-btn" id="saveKidBtn" style="margin-top:14px;">Lưu thành viên</button>
     <span class="danger-link" id="deleteKidLink" style="display:none;">Xoá thành viên</span>
+  </div>
+</div>
+
+<div class="overlay" id="familyGoalOverlay">
+  <div class="sheet">
+    <h3>🎯 Mục tiêu chung cả nhà</h3>
+    <div class="note-box">Cả nhà cùng góp điểm (mọi việc được xác nhận của tất cả các bé) để mở phần thưởng lớn — ví dụ đi chơi công viên hay xem phim!</div>
+    <div class="field"><label>Phần thưởng là gì?</label><input type="text" id="goalNameInput" placeholder="VD: Cả nhà đi công viên"></div>
+    <div class="field"><label>Chọn biểu tượng</label><div class="emoji-pick" id="goalEmojiPick"></div></div>
+    <div class="field"><label>Cần bao nhiêu điểm góp chung?</label><input type="number" id="goalPointsInput" min="10" max="5000" value="200"></div>
+    <button class="primary-btn" id="saveGoalBtn">Lưu mục tiêu</button>
+    <span class="danger-link" id="deleteGoalLink" style="display:none;">Xoá mục tiêu này</span>
   </div>
 </div>
 
@@ -350,20 +385,12 @@
   </div>
 </div>
 
-<div class="overlay" id="alarmOverlay">
-  <div class="sheet">
-    <h3>Thêm báo thức</h3>
-    <div class="field"><label>Giờ nhắc</label><input type="time" id="alarmTimeInput"></div>
-    <div class="field"><label>Nội dung nhắc</label><input type="text" id="alarmLabelInput" placeholder="VD: Đến giờ dọn phòng!"></div>
-    <button class="primary-btn" id="saveAlarmBtn">Lưu báo thức</button>
+<div class="celebrate-overlay" id="celebrateOverlay">
+  <div class="confetti-field" id="confettiField"></div>
+  <div class="mascot-bubble">
+    <div class="mascot-emoji" id="mascotEmoji">🐻</div>
+    <div class="mascot-speech" id="mascotSpeech">Con giỏi quá!</div>
   </div>
-</div>
-
-<div class="ring-screen" id="ringScreen">
-  <div class="bell">⏰</div>
-  <h2 id="ringLabel">Đến giờ dọn nhà rồi!</h2>
-  <p>Nhấn để tắt báo thức</p>
-  <button class="stop-btn" id="stopRingBtn">Tắt báo thức</button>
 </div>
 
 <script>
@@ -412,25 +439,193 @@
     {name:'Nấu cơm', emoji:'🍚', points:15},
   ];
   const LEVELS = [
-    {min:0,   name:'Chồi non',    icon:'🌱', art:'🌱', bg:'linear-gradient(135deg,#DFF3C4,#B4E197)'},
-    {min:50,  name:'Cây xanh',    icon:'🌿', art:'🪴', bg:'linear-gradient(135deg,#B4E197,#2FBF89)'},
-    {min:150, name:'Cây to',      icon:'🌳', art:'🌳', bg:'linear-gradient(135deg,#6BCBEF,#3DA9DC)'},
-    {min:300, name:'Siêu sao',    icon:'⭐', art:'🌟', bg:'linear-gradient(135deg,#FFE9A8,#FFC93C)'},
-    {min:500, name:'Nhà vô địch', icon:'🏆', art:'👑', bg:'linear-gradient(135deg,#FF9F45,#FF6B5E)'},
+    {min:0,    name:'Chồi non',    icon:'🌱', art:'🌱', bg:'linear-gradient(135deg,#DFF3C4,#B4E197)'},
+    {min:250,  name:'Cây xanh',    icon:'🌿', art:'🪴', bg:'linear-gradient(135deg,#B4E197,#2FBF89)'},
+    {min:700,  name:'Cây to',      icon:'🌳', art:'🌳', bg:'linear-gradient(135deg,#6BCBEF,#3DA9DC)'},
+    {min:1500, name:'Siêu sao',    icon:'⭐', art:'🌟', bg:'linear-gradient(135deg,#FFE9A8,#FFC93C)'},
+    {min:3000, name:'Nhà vô địch', icon:'🏆', art:'👑', bg:'linear-gradient(135deg,#FF9F45,#FF6B5E)'},
   ];
   function levelIdxFor(pts){ let idx = 0; LEVELS.forEach((l,i)=>{ if(pts >= l.min) idx = i; }); return idx; }
   function bonusForKid(kidId){ return levelIdxFor(totalPoints(kidId)); } // mỗi cấp lên = +1 điểm thưởng cho mỗi việc
   const PENALTY_REASONS = ['Làm chưa xong','Làm ẩu, chưa sạch','Bỏ dở giữa chừng','Không nghe lời','Trốn việc được giao'];
+  const GOAL_EMOJIS = ['🎯','🎡','🎬','🍕','🎢','🏖️','🍦','🎮','🧸','🎁','🚲','🏕️'];
+
+  // ============ CHUỖI NGÀY (STREAK) ============
+  const STREAK_MILESTONES = [3, 7, 30];
+  const STREAK_BONUS = {3:15, 7:40, 30:150};
+  function dateKeyFor(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+  function currentStreak(kidId){
+    const doneDates = new Set(completions.filter(c=> c.status==='approved' && (c.kidIds||[]).includes(kidId)).map(c=> c.dateKey));
+    let d = new Date();
+    if(!doneDates.has(dateKeyFor(d))) d.setDate(d.getDate()-1);
+    let streak = 0;
+    while(doneDates.has(dateKeyFor(d))){ streak++; d.setDate(d.getDate()-1); }
+    return streak;
+  }
+  function nextStreakMilestone(streak){ for(const m of STREAK_MILESTONES){ if(streak < m) return m; } return null; }
+  function streakHtml(kidId){
+    const s = currentStreak(kidId);
+    const next = nextStreakMilestone(s);
+    if(s<=0 && !next) return '';
+    const label = s>0 ? `🔥 ${s} ngày liên tiếp làm việc nhà!` : '🔥 Làm việc hôm nay để bắt đầu chuỗi ngày nào!';
+    const nextTxt = next ? ` · còn ${next-s} ngày nữa +${STREAK_BONUS[next]}đ` : ' · Đỉnh của chóp!';
+    return `<div class="streak-tag">${label}${nextTxt}</div>`;
+  }
+  let streakAwardGuard = new Set();
+  function maybeAwardStreakBonuses(){
+    if(!db) return;
+    kids.forEach(k=>{
+      const streak = currentStreak(k.id);
+      STREAK_MILESTONES.forEach(m=>{
+        if(streak < m) return;
+        const already = (k.streakMilestones||[]).includes(m);
+        const guardKey = k.id+':'+m;
+        if(already || streakAwardGuard.has(guardKey)) return;
+        streakAwardGuard.add(guardKey);
+        const bonus = STREAK_BONUS[m];
+        const batch = db.batch();
+        const compRef = db.collection('completions').doc();
+        batch.set(compRef, { kidIds:[k.id], taskId:null, taskName:`Thưởng chuỗi ${m} ngày liên tiếp`, emoji:'🔥', basePoints:bonus, points:bonus, streakBonus:true, ts:Date.now(), dateKey:todayKey(), status:'approved' });
+        batch.update(db.collection('kids').doc(k.id), { streakMilestones: firebase.firestore.FieldValue.arrayUnion(m) });
+        batch.commit().then(()=>{
+          celebrate(k.id, {phrase: `🔥 Chuỗi ${m} ngày liên tiếp! Thưởng +${bonus} điểm!`});
+          showToast(`🔥 ${displayName(k)} đạt chuỗi ${m} ngày! +${bonus} điểm thưởng!`);
+        }).catch(()=>{ streakAwardGuard.delete(guardKey); });
+      });
+    });
+  }
+
+  // ============ ĂN MỪNG: CONFETTI + LINH VẬT NHẢY MÚA + ÂM THANH ============
+  const CHEER_PHRASES = ['Con giỏi quá! 🎉','Nhà mình sạch bong rồi! ✨','Tuyệt vời ông mặt trời! 🌟','Bố mẹ tự hào về con lắm!','Con là siêu nhân dọn nhà! 🦸','Đỉnh của chóp luôn nè!','Cố lên, con làm tốt lắm!','Yeah! Thêm điểm rồi nha!'];
+  const CONFETTI_COLORS = ['#FFC93C','#FF6B5E','#3DA9DC','#2FBF89','#9B7EDE','#F5A3C7'];
+  let celebAudioCtx = null;
+  function ensureCelebAudio(){ if(!celebAudioCtx){ celebAudioCtx = new (window.AudioContext||window.webkitAudioContext)(); } if(celebAudioCtx.state==='suspended') celebAudioCtx.resume(); }
+  function playChime(){
+    try{
+      ensureCelebAudio();
+      [880, 1174.66, 1567.98].forEach((freq,i)=>{
+        const o = celebAudioCtx.createOscillator(); const g = celebAudioCtx.createGain();
+        o.type = 'sine'; o.frequency.value = freq;
+        o.connect(g); g.connect(celebAudioCtx.destination);
+        const t = celebAudioCtx.currentTime + i*0.13;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.28, t+0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t+0.5);
+        o.start(t); o.stop(t+0.55);
+      });
+    }catch(e){}
+  }
+  function spawnConfetti(count){
+    const field = $('confettiField');
+    field.innerHTML = '';
+    for(let i=0;i<count;i++){
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = Math.random()*100 + '%';
+      p.style.background = CONFETTI_COLORS[Math.floor(Math.random()*CONFETTI_COLORS.length)];
+      p.style.animationDuration = (1.6 + Math.random()*1.3) + 's';
+      p.style.animationDelay = (Math.random()*0.35) + 's';
+      p.style.borderRadius = Math.random()<0.5 ? '50%' : '2px';
+      field.appendChild(p);
+    }
+  }
+  let celebrateTimer = null;
+  function celebrate(kidId, opts){
+    opts = opts || {};
+    const k = kids.find(x=>x.id===kidId);
+    const lvlIdx = k ? levelIdxFor(totalPoints(k.id)) : 0;
+    $('mascotEmoji').textContent = k ? petStageEmoji(k.pet, lvlIdx) : '🐻';
+    $('mascotSpeech').textContent = opts.phrase || CHEER_PHRASES[Math.floor(Math.random()*CHEER_PHRASES.length)];
+    spawnConfetti(60);
+    $('celebrateOverlay').classList.add('show');
+    playChime();
+    clearTimeout(celebrateTimer);
+    celebrateTimer = setTimeout(()=> $('celebrateOverlay').classList.remove('show'), 2300);
+  }
+
+  // Linh vật đồng hành: chọn 1 loài, hình dáng "lớn lên" theo cấp độ hiện tại của bé
+  const PETS = [
+    { id:'dragon',  name:'Rồng nhỏ',    stages:['🥚','🐲','🐉','🐉','🐉'] },
+    { id:'cat',     name:'Mèo thần',    stages:['🥚','🐱','😺','🐯','🦁'] },
+    { id:'unicorn', name:'Kỳ lân',      stages:['🥚','🦄','🦄','🦄','🦄'] },
+    { id:'dino',    name:'Khủng long',  stages:['🥚','🦎','🦖','🦕','🐉'] },
+    { id:'bird',    name:'Đại bàng',    stages:['🥚','🐣','🐤','🦅','🦅'] },
+  ];
+  function petById(id){ return PETS.find(p=>p.id===id) || PETS[0]; }
+  function petStageEmoji(petId, lvlIdx){ const p = petById(petId); return p.stages[Math.min(lvlIdx, p.stages.length-1)]; }
+  const PET_STAGE_LABELS = ['Trứng','Mới nở','Lớn dần','Trưởng thành','Huyền thoại'];
+
+  // Huy hiệu thành tích — mỗi huy hiệu có điều kiện đạt được, tính từ lịch sử của bé
+  const BADGE_DEFS = [
+    { id:'room_king', icon:'🧹', name:'Vua dọn phòng', desc:'Hoàn thành việc dọn dẹp 10 lần', check:(s)=> s.cleanupCount>=10, progress:(s)=> [s.cleanupCount,10] },
+    { id:'night_owl', icon:'🦉', name:'Cú đêm chăm chỉ', desc:'Làm việc trước 8h tối, 5 lần liên tiếp', check:(s)=> s.nightOwlStreak>=5, progress:(s)=> [s.nightOwlStreak,5] },
+    { id:'moms_helper', icon:'🌟', name:'Trợ thủ của mẹ', desc:'Đạt 100 điểm đầu tiên', check:(s)=> s.totalPoints>=100, progress:(s)=> [Math.min(s.totalPoints,100),100] },
+  ];
+  function badgeStats(kidId){
+    const approved = completions.filter(c=> c.status==='approved' && (c.kidIds||[]).includes(kidId)).sort((a,b)=> a.ts-b.ts);
+    const cleanupCount = approved.filter(c=> /dọn|quét|lau/i.test(c.taskName||'')).length;
+    let nightOwlStreak = 0;
+    for(let i=approved.length-1;i>=0;i--){
+      if(new Date(approved[i].ts).getHours() < 20){ nightOwlStreak++; } else break;
+    }
+    return { cleanupCount, nightOwlStreak, totalPoints: totalPoints(kidId) };
+  }
+  function badgesHtml(kidId){
+    const s = badgeStats(kidId);
+    return `<div class="badge-row">${BADGE_DEFS.map(b=>{
+      const earned = b.check(s);
+      const [cur,goal] = b.progress(s);
+      return `<div class="badge-chip${earned?' earned':''}" title="${escapeHtml(b.desc)}"><span class="bi">${b.icon}</span><span class="bn">${b.name}</span>${earned?'':`<span class="bp">${Math.min(cur,goal)}/${goal}</span>`}</div>`;
+    }).join('')}</div>`;
+  }
+
+  // Nhiệm vụ đặc biệt hôm nay — cả nhà cùng 1 việc x2 điểm, mỗi bé được thưởng 1 lượt/ngày
+  function seededIndex(str, mod){
+    let h = 0; for(let i=0;i<str.length;i++){ h = (h*31 + str.charCodeAt(i)) >>> 0; }
+    return mod>0 ? h % mod : 0;
+  }
+  function familySpecialTask(){
+    if(tasks.length===0) return null;
+    return tasks[seededIndex('special_'+todayKey(), tasks.length)];
+  }
+  function specialUsedToday(kidId){
+    const tk = todayKey();
+    return completions.some(c=> c.dateKey===tk && c.special && c.status!=='rejected' && (c.kidIds||[]).includes(kidId));
+  }
+
+  function displayName(k){ return (k && k.nickname && k.nickname.trim()) ? k.nickname.trim() : (k ? k.name : ''); }
+
+  // Mục tiêu chung cả nhà
+  function familyGoalProgress(){
+    if(!familyGoal) return 0;
+    const sum = kids.reduce((s,k)=> s + totalPoints(k.id), 0);
+    return Math.max(0, sum - (familyGoal.baseline||0));
+  }
+  function familyGoalHtml(editable){
+    if(!familyGoal){
+      if(!editable) return '';
+      return `<div class="goal-card"><div class="goal-empty">🎯 Chưa có mục tiêu chung nào cho cả nhà.</div><button class="ghost-btn" id="setGoalBtn">+ Đặt mục tiêu chung</button></div>`;
+    }
+    const prog = familyGoalProgress();
+    const target = familyGoal.targetPoints || 1;
+    const pct = Math.min(100, Math.round(prog/target*100));
+    const done = prog >= target;
+    return `<div class="goal-card">
+      <div class="goal-head"><span class="goal-icon">${familyGoal.icon||'🎯'}</span><div class="goal-txt"><b>${escapeHtml(familyGoal.name||'Mục tiêu chung')}</b><span>${done ? 'Cả nhà đã đạt mục tiêu! 🎉' : `Còn ${target-prog} điểm góp chung nữa thôi!`}</span></div></div>
+      <div class="jar"><div class="jar-fill" style="width:${pct}%; background:var(--sun);"></div></div>
+      <div class="goal-pts">${prog} / ${target} điểm góp chung</div>
+      ${editable ? `<button class="ghost-btn" id="setGoalBtn" style="margin-top:8px;">${done ? '🎉 Đặt mục tiêu mới' : 'Sửa mục tiêu'}</button>` : ''}
+    </div>`;
+  }
   const CONFIG_KEY = 'nmcd_firebase_config';
-  const FIRED_KEY = 'nmcd_fired_alarms';
   const TRUSTED_KEY = 'nmcd_bome_trusted';
 
-  let kids = [], tasks = [], completions = [], alarms = [], penalties = [];
+  let kids = [], tasks = [], completions = [], penalties = [];
+  let familyGoal = null;
   let pendingTask = null;
   let db = null;
-  let ringingAlarmId = null;
-  let audioCtx = null, ringInterval = null;
   let unsubs = [];
+  let lastRanks = {};
 
   const $ = (id) => document.getElementById(id);
 
@@ -638,9 +833,9 @@
       render();
     }));
 
-    unsubs.push(db.collection('alarms').onSnapshot(snap=>{
-      alarms = snap.docs.map(d=>({id:d.id, ...d.data()}));
-      renderAlarms();
+    unsubs.push(db.collection('settings').doc('familyGoal').onSnapshot(snap=>{
+      familyGoal = snap.exists ? snap.data() : null;
+      render();
     }));
 
     unsubs.push(db.collection('penalties').onSnapshot(snap=>{
@@ -681,6 +876,7 @@
     renderConfirm();
     renderBoard();
     renderMembers();
+    maybeAwardStreakBonuses();
     const pc = pendingCount();
     const badge = $('pendingBadge');
     if(pc>0){ badge.style.display='flex'; badge.textContent = pc>9?'9+':pc; } else { badge.style.display='none'; }
@@ -689,10 +885,12 @@
   function renderTaskGrid(){
     const grid = $('taskGrid');
     grid.innerHTML = '';
+    const special = familySpecialTask();
     tasks.forEach(t=>{
+      const isSpecial = special && special.id === t.id;
       const card = document.createElement('div');
       card.className = 'task-card';
-      card.innerHTML = `<button class="edit-pin" data-editbtn="${t.id}">✏️</button><span class="em">${t.emoji}</span><span class="nm">${escapeHtml(t.name)}</span><span class="pt">+${t.points} điểm</span>`;
+      card.innerHTML = `${isSpecial ? '<span class="special-tag">⚡ x2 hôm nay</span>' : ''}<button class="edit-pin" data-editbtn="${t.id}">✏️</button><span class="em">${t.emoji}</span><span class="nm">${escapeHtml(t.name)}</span><span class="pt">+${t.points} điểm</span>`;
       card.addEventListener('click', (e)=>{ if(e.target.closest('[data-editbtn]')) return; openConfirm(t); });
       grid.appendChild(card);
     });
@@ -720,12 +918,13 @@
       if(h._type === 'penalty'){
         const k = kids.find(x=>x.id===h.kidId);
         row.className = 'hist-item penalty';
-        row.innerHTML = `<span class="em">⚠️</span><span class="who">${escapeHtml(k?k.name:'(đã xoá)')}</span> bị trừ điểm: ${escapeHtml(h.reason||'')} <span class="amt" style="font-weight:800;">-${h.points}</span><span class="penalty-tag">trừ điểm</span><span class="when">${hh}:${mm}</span>`;
+        row.innerHTML = `<span class="em">⚠️</span><span class="who">${escapeHtml(k?displayName(k):'(đã xoá)')}</span> bị trừ điểm: ${escapeHtml(h.reason||'')} <span class="amt" style="font-weight:800;">-${h.points}</span><span class="penalty-tag">trừ điểm</span><span class="when">${hh}:${mm}</span>`;
       } else {
-        const names = (h.kidIds||[]).map(id => { const k = kids.find(x=>x.id===id); return k? k.name : '(đã xoá)'; }).join(', ');
+        const names = (h.kidIds||[]).map(id => { const k = kids.find(x=>x.id===id); return k? displayName(k) : '(đã xoá)'; }).join(', ');
         row.className = 'hist-item' + (h.status==='pending' ? ' pending' : '');
         const bonusTxt = h.bonusApplied>0 ? ` <span style="color:var(--sun); font-weight:700; font-size:11px;">(gồm +${h.bonusApplied} thưởng cấp)</span>` : '';
-        row.innerHTML = `<span class="em">${h.emoji}</span><span class="who">${escapeHtml(names)}</span> đã ${escapeHtml((h.taskName||'').toLowerCase())} <span style="color:var(--mint);font-weight:800;">+${h.points}</span>${bonusTxt}${h.status==='pending'?'<span class="pending-tag">chờ xác nhận</span>':''}<span class="when">${hh}:${mm}</span>`;
+        const specialTxt = h.special ? ` <span style="color:var(--coral); font-weight:800; font-size:11px;">⚡x2</span>` : '';
+        row.innerHTML = `<span class="em">${h.emoji}</span><span class="who">${escapeHtml(names)}</span> đã ${escapeHtml((h.taskName||'').toLowerCase())} <span style="color:var(--mint);font-weight:800;">+${h.points}</span>${bonusTxt}${specialTxt}${h.status==='pending'?'<span class="pending-tag">chờ xác nhận</span>':''}<span class="when">${hh}:${mm}</span>`;
       }
       list.appendChild(row);
     });
@@ -737,13 +936,13 @@
     if(items.length===0){ list.innerHTML = `<div class="empty"><span class="em">✅</span>Không có việc nào đang chờ xác nhận.</div>`; return; }
     list.innerHTML = '';
     items.forEach(c=>{
-      const names = (c.kidIds||[]).map(id => { const k = kids.find(x=>x.id===id); return k? k.name : '(đã xoá)'; }).join(', ');
+      const names = (c.kidIds||[]).map(id => { const k = kids.find(x=>x.id===id); return k? displayName(k) : '(đã xoá)'; }).join(', ');
       const card = document.createElement('div');
       card.className = 'confirm-card';
       card.innerHTML = `
         <div class="row1">
           <span class="em">${c.emoji}</span>
-          <div class="txt"><div class="who">${escapeHtml(names)}</div><div class="what">${escapeHtml(c.taskName)} · <span class="pt">+${c.points}đ</span></div></div>
+          <div class="txt"><div class="who">${escapeHtml(names)}</div><div class="what">${escapeHtml(c.taskName)} · <span class="pt">+${c.points}đ</span>${c.special ? ' <span style="color:var(--coral);">⚡x2</span>' : ''}</div></div>
         </div>
         <div class="confirm-actions">
           <button class="btn-ok" data-approve="${c.id}">Xác nhận ✅</button>
@@ -756,8 +955,12 @@
       const kidId = c && (c.kidIds||[])[0];
       const base = (c && (c.basePoints!=null ? c.basePoints : c.points)) || 0;
       const bonus = kidId ? bonusForKid(kidId) : 0;
-      await db.collection('completions').doc(b.dataset.approve).update({status:'approved', points: base + bonus, basePoints: base, bonusApplied: bonus});
-      showToast(bonus>0 ? `Đã xác nhận! 🎉 (+${bonus} điểm thưởng cấp)` : 'Đã xác nhận! 🎉');
+      const mult = c && c.special ? 2 : 1;
+      await db.collection('completions').doc(b.dataset.approve).update({status:'approved', points: base*mult + bonus, basePoints: base, bonusApplied: bonus});
+      if(kidId){
+        celebrate(kidId, {phrase: (c && c.special) ? '⚡ Nhiệm vụ đặc biệt x2! Siêu đỉnh!' : undefined});
+      }
+      showToast((c && c.special) ? 'Đã xác nhận! 🎉 ⚡ Nhiệm vụ đặc biệt x2!' : (bonus>0 ? `Đã xác nhận! 🎉 (+${bonus} điểm thưởng cấp)` : 'Đã xác nhận! 🎉'));
     }));
     list.querySelectorAll('[data-reject]').forEach(b=> b.addEventListener('click', async ()=>{
       await db.collection('completions').doc(b.dataset.reject).update({status:'rejected'});
@@ -766,35 +969,46 @@
 
   function renderBoard(){
     const list = $('boardList');
-    if(kids.length===0){ list.innerHTML = `<div class="empty"><span class="em">🏆</span>Thêm thành viên để bắt đầu tính điểm nhé!</div>`; return; }
+    list.innerHTML = familyGoalHtml(true);
+    $('setGoalBtn') && $('setGoalBtn').addEventListener('click', openFamilyGoalModal);
+    if(kids.length===0){ list.innerHTML += `<div class="empty"><span class="em">🏆</span>Thêm thành viên để bắt đầu tính điểm nhé!</div>`; return; }
     const sorted = kids.slice().sort((a,b)=> totalPoints(b.id) - totalPoints(a.id));
-    list.innerHTML = '';
+    const newRanks = {}; sorted.forEach((k,i)=> newRanks[k.id]=i);
     sorted.forEach(k=>{
       const pts = totalPoints(k.id);
       const lvl = levelFor(pts);
+      const lvlIdx = levelIdxFor(pts);
       const next = nextLevelFor(pts);
       const pct = next ? Math.round(((pts - lvl.min) / (next.min - lvl.min)) * 100) : 100;
       const frame = frameById(k.frame);
+      const pet = petById(k.pet);
+      const petArt = petStageEmoji(k.pet, lvlIdx);
+      let arrowHtml = '';
+      if(lastRanks[k.id] !== undefined && lastRanks[k.id] !== newRanks[k.id]){
+        arrowHtml = newRanks[k.id] < lastRanks[k.id] ? `<span class="rank-arrow up">▲</span>` : `<span class="rank-arrow down">▼</span>`;
+      }
       const card = document.createElement('div');
       card.className = 'lb-card';
       card.innerHTML = `
         <div class="lvl-banner" style="background:${lvl.bg};">
           <span class="art">${lvl.art}</span>
-          <span class="txt">${lvl.name} · thưởng +${levelIdxFor(pts)} điểm mỗi việc</span>
+          <span class="txt">${lvl.name} · thưởng +${lvlIdx} điểm mỗi việc</span>
         </div>
         <div class="lb-top">
           <div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div>
-          <div class="info"><div class="nm">${escapeHtml(k.name)}</div><div class="lvl">${lvl.icon} ${lvl.name}${next ? ' · còn ' + (next.min-pts) + ' điểm lên '+next.name : ' · Cấp cao nhất!'} · <span class="lvl-link" data-roadmap="${k.id}">xem lộ trình</span></div></div>
+          <div class="info"><div class="nm">${escapeHtml(displayName(k))}${arrowHtml}</div><div class="lvl">${lvl.icon} ${lvl.name}${next ? ' · còn ' + (next.min-pts) + ' điểm lên '+next.name : ' · Cấp cao nhất!'} · <span class="lvl-link" data-roadmap="${k.id}">xem lộ trình</span></div><div class="pet-tag">${petArt} Linh vật: ${pet.name} (${PET_STAGE_LABELS[Math.min(lvlIdx, PET_STAGE_LABELS.length-1)]})</div>${streakHtml(k.id)}</div>
           <div class="pts-big">${pts}đ</div>
         </div>
         <div class="jar"><div class="jar-fill" style="width:${pct}%; background:${k.color};"></div></div>
         <div class="roadmap" id="roadmap-${k.id}">${buildRoadmapHtml(pts)}</div>
+        ${badgesHtml(k.id)}
         <div class="lb-actions">
           <button class="small-btn" data-reset="${k.id}">Đặt lại điểm bé này</button>
           <button class="small-btn danger" data-penalty="${k.id}">⚠️ Trừ điểm</button>
         </div>`;
       list.appendChild(card);
     });
+    lastRanks = newRanks;
     list.querySelectorAll('[data-roadmap]').forEach(el=>{
       el.addEventListener('click', ()=>{
         $('roadmap-'+el.dataset.roadmap).classList.toggle('show');
@@ -846,32 +1060,12 @@
       const frame = frameById(k.frame);
       const row = document.createElement('div');
       row.className = 'member-row';
-      row.innerHTML = `<div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div><div class="nm">${escapeHtml(k.name)}</div><span class="pts">${totalPoints(k.id)}đ</span><button class="icon-btn" data-penalty="${k.id}" title="Trừ điểm" style="background:rgba(255,107,94,0.15); color:var(--coral);">⚠️</button><button class="icon-btn" data-edit="${k.id}">✏️</button>`;
+      const nickTxt = (k.nickname && k.nickname.trim()) ? ` <span style="color:var(--ink-soft); font-weight:700; font-size:11px;">"${escapeHtml(k.nickname.trim())}"</span>` : '';
+      row.innerHTML = `<div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div><div class="nm">${escapeHtml(k.name)}${nickTxt}</div><span class="pts">${totalPoints(k.id)}đ</span><button class="icon-btn" data-penalty="${k.id}" title="Trừ điểm" style="background:rgba(255,107,94,0.15); color:var(--coral);">⚠️</button><button class="icon-btn" data-edit="${k.id}">✏️</button>`;
       list.appendChild(row);
     });
     list.querySelectorAll('[data-edit]').forEach(b=> b.addEventListener('click', ()=> openKidModal(b.dataset.edit)));
     list.querySelectorAll('[data-penalty]').forEach(b=> b.addEventListener('click', ()=> openPenaltyModal(b.dataset.penalty)));
-  }
-
-  function renderAlarms(){
-    const list = $('alarmList');
-    if(alarms.length===0){ list.innerHTML = `<div class="empty"><span class="em">⏰</span>Chưa có báo thức nào.</div>`; return; }
-    list.innerHTML = '';
-    alarms.slice().sort((a,b)=> (a.time||'').localeCompare(b.time||'')).forEach(a=>{
-      const row = document.createElement('div');
-      row.className = 'alarm-row';
-      row.innerHTML = `
-        <div><div class="time">${a.time}</div><div class="lbl">${escapeHtml(a.label || 'Nhắc việc nhà')}</div></div>
-        <label class="switch"><input type="checkbox" data-toggle="${a.id}" ${a.enabled?'checked':''}><span class="slider"></span></label>
-        <button class="icon-btn" data-del="${a.id}">🗑️</button>`;
-      list.appendChild(row);
-    });
-    list.querySelectorAll('[data-toggle]').forEach(chk=> chk.addEventListener('change', async ()=>{
-      await db.collection('alarms').doc(chk.dataset.toggle).update({enabled: chk.checked});
-    }));
-    list.querySelectorAll('[data-del]').forEach(b=> b.addEventListener('click', async ()=>{
-      await db.collection('alarms').doc(b.dataset.del).delete();
-    }));
   }
 
   /* ============ CONFIRM WHO DID TASK (parent logs = auto approved) ============ */
@@ -884,7 +1078,7 @@
     kids.forEach(k=>{
       const kb = document.createElement('div');
       kb.className = 'kb';
-      kb.innerHTML = `<span>${k.avatar}</span><span>${escapeHtml(k.name)}</span>`;
+      kb.innerHTML = `<span>${k.avatar}</span><span>${escapeHtml(displayName(k))}</span>`;
       kb.addEventListener('click', ()=> kb.classList.toggle('sel'));
       kb._kidId = k.id;
       wrap.appendChild(kb);
@@ -894,20 +1088,24 @@
       const ids = Array.from(wrap.querySelectorAll('.kb.sel')).map(el=>el._kidId);
       if(ids.length===0){ showToast('Hãy chọn ít nhất 1 bé nhé!'); return; }
       const batch = db.batch();
-      let bonusMsg = '';
+      let bonusMsg = ''; let anySpecial = false;
+      const special = familySpecialTask();
       ids.forEach(kidId=>{
         const bonus = bonusForKid(kidId);
         if(bonus>0) bonusMsg = ` (có ${bonus} điểm thưởng cấp)`;
+        const isSpecial = special && special.id === pendingTask.id && !specialUsedToday(kidId);
+        if(isSpecial) anySpecial = true;
+        const mult = isSpecial ? 2 : 1;
         const ref = db.collection('completions').doc();
         batch.set(ref, {
           kidIds: [kidId], taskId: pendingTask.id||null, taskName: pendingTask.name,
-          emoji: pendingTask.emoji, basePoints: pendingTask.points, points: pendingTask.points + bonus,
-          bonusApplied: bonus, ts: Date.now(), dateKey: todayKey(), status:'approved'
+          emoji: pendingTask.emoji, basePoints: pendingTask.points, points: pendingTask.points*mult + bonus,
+          bonusApplied: bonus, special: isSpecial, ts: Date.now(), dateKey: todayKey(), status:'approved'
         });
       });
       await batch.commit();
       $('confirmOverlay').classList.remove('show');
-      showToast('Đã ghi nhận & cộng điểm! 🎉' + bonusMsg);
+      showToast((anySpecial ? '⚡ Nhiệm vụ đặc biệt x2! ' : '') + 'Đã ghi nhận & cộng điểm! 🎉' + bonusMsg);
     };
   }
   $('confirmOverlay').addEventListener('click', (e)=>{ if(e.target.id==='confirmOverlay') $('confirmOverlay').classList.remove('show'); });
@@ -946,9 +1144,19 @@
   function openKidModal(kidId){
     const isEdit = !!kidId;
     $('kidModalTitle').textContent = isEdit ? 'Sửa thành viên' : 'Thêm thành viên';
-    const k = isEdit ? kids.find(x=>x.id===kidId) : {name:'', avatar: KID_EMOJIS[0], color: KID_COLORS[0], frame:'none'};
+    const k = isEdit ? kids.find(x=>x.id===kidId) : {name:'', avatar: KID_EMOJIS[0], color: KID_COLORS[0], frame:'none', nickname:'', pet: PETS[0].id};
     $('kidNameInput').value = k.name;
+    $('kidNicknameInput').value = k.nickname || '';
     const kidLvlIdx = isEdit ? levelIdxFor(totalPoints(kidId)) : 0;
+
+    const petPick = $('kidPetPick'); petPick.innerHTML = ''; let selPet = k.pet || PETS[0].id;
+    PETS.forEach(p=>{
+      const chip = document.createElement('div');
+      chip.className = 'pchip' + (p.id===selPet ? ' sel' : '');
+      chip.innerHTML = `<span>${petStageEmoji(p.id, kidLvlIdx)}</span><span>${p.name}</span>`;
+      chip.addEventListener('click', ()=>{ petPick.querySelectorAll('.pchip').forEach(x=>x.classList.remove('sel')); chip.classList.add('sel'); selPet = p.id; });
+      petPick.appendChild(chip);
+    });
 
     const avPick = $('kidAvatarPick'); avPick.innerHTML = ''; let selAv = k.avatar;
     AVATAR_TIERS.forEach(tier=>{
@@ -994,9 +1202,10 @@
     };
     $('saveKidBtn').onclick = async ()=>{
       const name = $('kidNameInput').value.trim();
+      const nickname = $('kidNicknameInput').value.trim();
       if(!name){ showToast('Nhập tên bé nhé!'); return; }
-      if(isEdit){ await db.collection('kids').doc(kidId).update({name, avatar: selAv, color: selColor, frame: selFrame}); }
-      else { await db.collection('kids').add({name, avatar: selAv, color: selColor, frame: selFrame, createdAt: Date.now()}); }
+      if(isEdit){ await db.collection('kids').doc(kidId).update({name, nickname, avatar: selAv, color: selColor, frame: selFrame, pet: selPet}); }
+      else { await db.collection('kids').add({name, nickname, avatar: selAv, color: selColor, frame: selFrame, pet: selPet, createdAt: Date.now()}); }
       $('kidOverlay').classList.remove('show');
     };
     $('kidOverlay').classList.add('show');
@@ -1034,65 +1243,36 @@
   }
   $('penaltyOverlay').addEventListener('click', (e)=>{ if(e.target.id==='penaltyOverlay') $('penaltyOverlay').classList.remove('show'); });
 
-  /* ============ ALARM MODAL ============ */
-  $('addAlarmBtn').addEventListener('click', ()=>{
-    $('alarmTimeInput').value = ''; $('alarmLabelInput').value = '';
-    $('alarmOverlay').classList.add('show');
-  });
-  $('alarmOverlay').addEventListener('click', (e)=>{ if(e.target.id==='alarmOverlay') $('alarmOverlay').classList.remove('show'); });
-  $('saveAlarmBtn').addEventListener('click', async ()=>{
-    const time = $('alarmTimeInput').value;
-    const label = $('alarmLabelInput').value.trim();
-    if(!time){ showToast('Chọn giờ báo thức nhé!'); return; }
-    await db.collection('alarms').add({time, label, enabled:true});
-    $('alarmOverlay').classList.remove('show');
-  });
-
-  /* ============ ALARM ENGINE (per-device firing) ============ */
-  function getFiredMap(){ try{ return JSON.parse(localStorage.getItem(FIRED_KEY) || '{}'); }catch(e){ return {}; } }
-  function setFired(alarmId, dateKey){
-    const m = getFiredMap(); m[alarmId] = dateKey;
-    localStorage.setItem(FIRED_KEY, JSON.stringify(m));
-  }
-  function ensureAudio(){
-    if(!audioCtx){ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-  }
-  function beep(){
-    if(!audioCtx) return;
-    const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-    o.type = 'sine'; o.frequency.value = 880; g.gain.value = 0.15;
-    o.connect(g); g.connect(audioCtx.destination); o.start();
-    o.frequency.setValueAtTime(880, audioCtx.currentTime);
-    o.frequency.setValueAtTime(660, audioCtx.currentTime + 0.15);
-    o.frequency.setValueAtTime(880, audioCtx.currentTime + 0.3);
-    o.stop(audioCtx.currentTime + 0.45);
-  }
-  function startRing(alarm){
-    ringingAlarmId = alarm.id;
-    $('ringLabel').textContent = alarm.label || 'Đến giờ dọn nhà rồi!';
-    $('ringScreen').classList.add('show');
-    ensureAudio(); beep();
-    ringInterval = setInterval(()=>{ beep(); if(navigator.vibrate) navigator.vibrate([400,200,400]); }, 700);
-    if(navigator.vibrate) navigator.vibrate([400,200,400]);
-  }
-  $('stopRingBtn').addEventListener('click', ()=>{
-    clearInterval(ringInterval);
-    $('ringScreen').classList.remove('show');
-    if(navigator.vibrate) navigator.vibrate(0);
-    if(ringingAlarmId) setFired(ringingAlarmId, todayKey());
-    ringingAlarmId = null;
-  });
-  setInterval(()=>{
-    if(ringingAlarmId || !db) return;
-    const now = new Date();
-    const cur = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-    const tk = todayKey();
-    const fired = getFiredMap();
-    alarms.forEach(a=>{
-      if(a.enabled && a.time === cur && fired[a.id] !== tk){ startRing(a); }
+  /* ============ FAMILY GOAL MODAL (mục tiêu chung cả nhà) ============ */
+  function openFamilyGoalModal(){
+    const isEdit = !!familyGoal;
+    $('goalNameInput').value = isEdit ? (familyGoal.name||'') : '';
+    $('goalPointsInput').value = isEdit ? (familyGoal.targetPoints||200) : 200;
+    const pick = $('goalEmojiPick'); pick.innerHTML = ''; let selEmoji = isEdit ? (familyGoal.icon||GOAL_EMOJIS[0]) : GOAL_EMOJIS[0];
+    GOAL_EMOJIS.forEach(em=>{
+      const s = document.createElement('span'); s.textContent = em;
+      if(em===selEmoji) s.classList.add('sel');
+      s.addEventListener('click', ()=>{ pick.querySelectorAll('span').forEach(x=>x.classList.remove('sel')); s.classList.add('sel'); selEmoji = em; });
+      pick.appendChild(s);
     });
-  }, 1000);
+    $('deleteGoalLink').style.display = isEdit ? 'block' : 'none';
+    $('deleteGoalLink').onclick = async ()=>{
+      if(confirm('Xoá mục tiêu chung hiện tại?')){ await db.collection('settings').doc('familyGoal').delete(); $('familyGoalOverlay').classList.remove('show'); }
+    };
+    $('saveGoalBtn').onclick = async ()=>{
+      const name = $('goalNameInput').value.trim();
+      const targetPoints = parseInt($('goalPointsInput').value) || 200;
+      if(!name){ showToast('Đặt tên cho phần thưởng nhé!'); return; }
+      const achievedBefore = familyGoal && familyGoalProgress() >= (familyGoal.targetPoints||1);
+      // đặt mục tiêu mới (hoặc đổi mục tiêu đã đạt) sẽ tính lại mốc từ tổng điểm hiện tại của cả nhà
+      const baseline = (isEdit && !achievedBefore) ? familyGoal.baseline : kids.reduce((s,k)=> s+totalPoints(k.id), 0);
+      await db.collection('settings').doc('familyGoal').set({name, icon: selEmoji, targetPoints, baseline, createdAt: Date.now()});
+      $('familyGoalOverlay').classList.remove('show');
+      showToast('Đã lưu mục tiêu chung cả nhà! 🎯');
+    };
+    $('familyGoalOverlay').classList.add('show');
+  }
+  $('familyGoalOverlay').addEventListener('click', (e)=>{ if(e.target.id==='familyGoalOverlay') $('familyGoalOverlay').classList.remove('show'); });
 
   /* ============ LOAD FIREBASE LIBS (with fallback CDN) ============ */
   function loadScript(src){
