@@ -59,7 +59,12 @@
   .task-card.add-new .em{ font-size:26px; }
 
   .lb-card{ background:var(--card); border:2px solid var(--line); border-radius:20px; padding:16px; margin-bottom:14px; box-shadow: var(--shadow); }
+  .lvl-banner{ display:flex; align-items:center; gap:10px; border-radius:14px; padding:10px 12px; margin-bottom:12px; }
+  .lvl-banner .art{ font-size:30px; }
+  .lvl-banner .txt{ font-family:'Baloo 2'; font-weight:800; font-size:14px; color:var(--ink); }
   .lb-top{ display:flex; align-items:center; gap:12px; }
+  .av-wrap{ position:relative; flex:0 0 auto; }
+  .av-wrap .frame-badge{ position:absolute; bottom:-4px; right:-4px; font-size:15px; background:#fff; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 4px rgba(0,0,0,0.15); }
   .lb-top .av{ width:56px;height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:26px; flex:0 0 auto; }
   .lb-top .info{ flex:1; }
   .lb-top .info .nm{ font-family:'Baloo 2'; font-weight:800; font-size:17px; }
@@ -67,15 +72,31 @@
   .lb-top .pts-big{ font-family:'Baloo 2'; font-size:22px; font-weight:800; }
   .jar{ margin-top:12px; height:16px; border-radius:999px; background:var(--line); overflow:hidden; position:relative; }
   .jar-fill{ height:100%; border-radius:999px; transition: width .4s ease; }
-  .lb-actions{ display:flex; gap:8px; margin-top:12px; }
+  .lb-actions{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
   .small-btn{ font-size:12px; font-weight:700; border:2px solid var(--line); background:transparent; border-radius:10px; padding:6px 10px; cursor:pointer; color:var(--ink-soft); }
+  .small-btn.danger{ border-color: rgba(255,107,94,0.4); color: var(--coral); }
+  .lvl-link{ font-size:11px; font-weight:800; color:var(--sky); cursor:pointer; text-decoration:underline; }
+  .roadmap{ display:none; margin-top:12px; border-top:2px dashed var(--line); padding-top:10px; }
+  .roadmap.show{ display:block; }
+  .roadmap-row{ display:flex; align-items:center; gap:8px; padding:6px 2px; font-size:12px; }
+  .roadmap-row .rm-ic{ font-size:18px; width:24px; text-align:center; }
+  .roadmap-row .rm-name{ font-weight:800; flex:1; }
+  .roadmap-row .rm-pts{ color:var(--ink-soft); font-weight:700; }
+  .roadmap-row.done{ opacity:.55; }
+  .roadmap-row.current{ background:var(--cream); border-radius:8px; }
+  .roadmap-row.current .rm-name{ color:var(--mint); }
 
   .hist-item{ display:flex; align-items:center; gap:10px; padding:8px 4px; border-bottom:1px solid var(--line); font-size:13px; }
   .hist-item .em{ font-size:18px; }
   .hist-item .who{ font-weight:800; }
   .hist-item .when{ margin-left:auto; color:var(--ink-soft); font-size:11px; }
   .hist-item.pending{ opacity:.7; }
+  .hist-item.penalty .amt{ color: var(--coral); }
   .pending-tag{ background:var(--sun); color:var(--ink); font-size:10px; font-weight:800; padding:2px 7px; border-radius:999px; }
+  .penalty-tag{ background:rgba(255,107,94,0.15); color:var(--coral); font-size:10px; font-weight:800; padding:2px 7px; border-radius:999px; }
+  .reason-pick{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .reason-pick span{ font-size:12px; font-weight:700; padding:8px 12px; border-radius:999px; border:2px solid var(--line); cursor:pointer; background:#fff; color:var(--ink-soft); }
+  .reason-pick span.sel{ border-color: var(--coral); background:rgba(255,107,94,0.12); color:var(--coral); }
 
   .confirm-card{ background:var(--card); border:2px solid var(--line); border-radius:18px; padding:14px; margin-bottom:12px; box-shadow: var(--shadow); }
   .confirm-card .row1{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
@@ -114,8 +135,16 @@
   .field label{ display:block; font-size:12px; font-weight:800; color:var(--ink-soft); margin-bottom:6px; }
   .field input[type=text], .field input[type=number], .field input[type=time], .field input[type=password]{ width:100%; padding:12px 14px; border-radius:12px; border:2px solid var(--line); font-size:15px; font-family:'Nunito'; background:#fff; }
   .emoji-pick{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
-  .emoji-pick span{ font-size:22px; padding:6px 8px; border-radius:10px; border:2px solid var(--line); cursor:pointer; background:#fff; }
+  .emoji-pick span{ position:relative; font-size:22px; padding:6px 8px; border-radius:10px; border:2px solid var(--line); cursor:pointer; background:#fff; }
   .emoji-pick span.sel{ border-color: var(--ink); background: var(--sun); }
+  .emoji-pick span.locked{ opacity:.4; }
+  .emoji-pick span.locked .lock-dot{ position:absolute; top:-5px; right:-5px; font-size:10px; }
+  .tier-label{ font-size:11px; font-weight:800; color:var(--ink-soft); margin:10px 0 4px; display:flex; align-items:center; gap:5px; }
+  .tier-label .lockline{ opacity:.6; }
+  .frame-pick{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .frame-pick .fchip{ position:relative; display:flex; align-items:center; gap:6px; padding:8px 10px; border-radius:12px; border:2px solid var(--line); cursor:pointer; background:#fff; font-size:12px; font-weight:700; }
+  .frame-pick .fchip.sel{ border-color: var(--ink); background: var(--cream); }
+  .frame-pick .fchip.locked{ opacity:.45; }
   .color-pick{ display:flex; gap:8px; margin-top:6px; }
   .color-pick span{ width:34px;height:34px; border-radius:50%; cursor:pointer; border:3px solid transparent; }
   .color-pick span.sel{ border-color: var(--ink); }
@@ -234,7 +263,7 @@
 
   <div class="view" id="view-tasks">
     <div class="section-head"><h2>Danh sách việc nhà</h2></div>
-    <div class="note-box">Bấm vào 1 việc để <b>ghi nhận luôn</b> (tự động cộng điểm, không cần chờ xác nhận). Bấm ✏️ ở góc thẻ để sửa hoặc xoá việc đó.</div>
+    <div class="note-box">Bấm vào 1 việc để <b>ghi nhận luôn</b> (tự động cộng điểm, không cần chờ xác nhận). Bấm ✏️ ở góc thẻ để sửa hoặc xoá việc đó. Bé càng lên cấp cao, mỗi việc càng được <b>cộng thêm điểm thưởng</b> (Cây to +2, Siêu sao +3, Nhà vô địch +4...).</div>
     <div class="task-grid" id="taskGrid"></div>
     <div class="section-head" style="margin-top:22px;"><h2>Hôm nay</h2></div>
     <div id="historyList"></div>
@@ -300,10 +329,24 @@
   <div class="sheet">
     <h3 id="kidModalTitle">Thêm thành viên</h3>
     <div class="field"><label>Tên bé</label><input type="text" id="kidNameInput" placeholder="VD: Bin"></div>
-    <div class="field"><label>Chọn hình đại diện</label><div class="emoji-pick" id="kidAvatarPick"></div></div>
+    <div class="field"><label>Chọn hình đại diện</label><div id="kidAvatarPick"></div></div>
+    <div class="field"><label>Chọn khung hình</label><div class="frame-pick" id="kidFramePick"></div></div>
     <div class="field"><label>Chọn màu</label><div class="color-pick" id="kidColorPick"></div></div>
-    <button class="primary-btn" id="saveKidBtn">Lưu thành viên</button>
+    <div class="note-box" style="margin-bottom:0;">🔒 = bé cần lên tới cấp đó mới tự mở khoá được trong app "Của Con". Ở đây bố mẹ vẫn chọn được mọi icon/khung cho con.</div>
+    <button class="primary-btn" id="saveKidBtn" style="margin-top:14px;">Lưu thành viên</button>
     <span class="danger-link" id="deleteKidLink" style="display:none;">Xoá thành viên</span>
+  </div>
+</div>
+
+<div class="overlay" id="penaltyOverlay">
+  <div class="sheet">
+    <h3 id="penaltyTitle">Trừ điểm</h3>
+    <div class="field"><label>Lý do</label>
+      <div class="reason-pick" id="penaltyReasonPick"></div>
+      <input type="text" id="penaltyReasonInput" placeholder="Hoặc nhập lý do khác..." style="margin-top:8px;">
+    </div>
+    <div class="field"><label>Số điểm trừ</label><input type="number" id="penaltyPointsInput" min="1" max="100" value="5"></div>
+    <button class="primary-btn" id="savePenaltyBtn" style="background:var(--coral);">Trừ điểm ngay ⚠️</button>
   </div>
 </div>
 
@@ -325,9 +368,41 @@
 
 <script>
 (function(){
-  const KID_EMOJIS = ['👦','👧','🧒','👶','🐼','🐱','🐶','🦁','🐰','🐸','🦊','🐯'];
-  const KID_COLORS = ['#FFC93C','#FF6B5E','#3DA9DC','#2FBF89','#9B7EDE','#F5A3C7'];
-  const TASK_EMOJIS = ['🍽️','🧹','👕','🧺','🧽','🍚','🛏️','🗑️','🪟','🌱','🐟','🧸','📚','🧴','🚿','✨'];
+  // Kho icon đại diện, chia theo tầng (tier) mở khoá dần theo cấp độ của bé — phù hợp cả bé trai & bé gái
+  const AVATAR_TIERS = [
+    { levelIdx:0, items:['👦','👧','🧒','👶','🧑','👱','👱‍♀️','🧑‍🦱','👩‍🦱','🧑‍🦰','👩‍🦰','🧑‍🦳'] },
+    { levelIdx:1, items:['🐼','🐱','🐶','🦁','🐰','🐸','🦊','🐯','🐨','🐵','🐮','🐷'] },
+    { levelIdx:2, items:['🐹','🐭','🦄','🐻','🐔','🐧','🦉','🐢','🐬','🦋','🐝','🐙'] },
+    { levelIdx:3, items:['🦖','🦕','🐲','🧚','🧜','🧙','🦸','🦸‍♀️','🦹','🥷','👽','🤖'] },
+    { levelIdx:4, items:['⭐','🌈','⚽','🎨','🚀','🎮','👑','💎'] },
+  ];
+  const KID_EMOJIS = AVATAR_TIERS.flatMap(t=>t.items);
+  function avatarTierIdx(emoji){ const t = AVATAR_TIERS.find(t=> t.items.includes(emoji)); return t ? t.levelIdx : 0; }
+
+  // Khung hình trang trí quanh avatar, mở khoá dần theo cấp độ — kiểu dáng trung tính, hợp cho cả bé trai & bé gái
+  const FRAMES = [
+    { id:'none', name:'Không khung', levelIdx:0, badge:'', style:'' },
+    { id:'dot', name:'Viền chấm bi', levelIdx:0, badge:'⚪', style:'border:3px dashed var(--ink-soft);' },
+    { id:'star', name:'Viền ngôi sao', levelIdx:1, badge:'⭐', style:'border:3px solid var(--sun); box-shadow:0 0 0 3px rgba(255,201,60,0.35);' },
+    { id:'flower', name:'Viền hoa', levelIdx:1, badge:'🌸', style:'border:3px solid #FF8FA3; box-shadow:0 0 0 3px rgba(255,143,163,0.3);' },
+    { id:'wave', name:'Viền sóng biển', levelIdx:2, badge:'🌊', style:'border:3px solid var(--sky); box-shadow:0 0 0 3px rgba(61,169,220,0.3);' },
+    { id:'rainbow', name:'Viền cầu vồng', levelIdx:2, badge:'🌈', style:'border:3px solid #2FBF89; box-shadow:0 0 0 3px rgba(255,107,94,0.25), 0 0 0 6px rgba(61,169,220,0.2);' },
+    { id:'galaxy', name:'Viền thiên hà', levelIdx:3, badge:'🌌', style:'border:3px solid var(--lav); box-shadow:0 0 0 4px rgba(155,126,222,0.35);' },
+    { id:'hero', name:'Viền siêu anh hùng', levelIdx:3, badge:'🦸', style:'border:3px solid var(--coral); box-shadow:0 0 0 4px rgba(255,107,94,0.3);' },
+    { id:'gold', name:'Viền vàng vô địch', levelIdx:4, badge:'🏅', style:'border:4px solid #FFD700; box-shadow:0 0 0 4px rgba(255,215,0,0.4);' },
+    { id:'diamond', name:'Viền kim cương', levelIdx:4, badge:'💎', style:'border:4px solid #B4E9F5; box-shadow:0 0 12px rgba(180,233,245,0.85);' },
+  ];
+  function frameById(id){ return FRAMES.find(f=>f.id===id) || FRAMES[0]; }
+
+  const KID_COLORS = ['#FFC93C','#FF6B5E','#3DA9DC','#2FBF89','#9B7EDE','#F5A3C7','#FF9F45','#6BCBEF','#B4E197','#FF8FA3','#C4A7FF','#FFD97D'];
+  const TASK_EMOJIS = [
+    '🍽️','🧹','👕','🧺','🧽','🍚','🛏️','🗑️','🪟','🌱','🐟','🧸','📚','🧴','🚿','✨',
+    '🧼','🪣','🧻','🧯','🔌','🚪','🪑','🛋️','🖼️','🧦','👟','🎒','📦',
+    '🍳','🥗','🥘','🍞','🧊','☕','🥣','🍲','🧁',
+    '🌻','🪴','🐕','🐈','🐦','🚗','🚲',
+    '💡','📱','💻','🧮','✏️','🖊️','🧵','🪡','🎁',
+    '🧘','🛌','🪥','⏰','📅','♻️'
+  ];
   const DEFAULT_TASKS = [
     {name:'Rửa bát', emoji:'🍽️', points:10},
     {name:'Quét nhà', emoji:'🧹', points:8},
@@ -337,15 +412,20 @@
     {name:'Nấu cơm', emoji:'🍚', points:15},
   ];
   const LEVELS = [
-    {min:0, name:'Chồi non', icon:'🌱'}, {min:50, name:'Cây xanh', icon:'🌿'},
-    {min:150, name:'Cây to', icon:'🌳'}, {min:300, name:'Siêu sao', icon:'⭐'},
-    {min:500, name:'Nhà vô địch', icon:'🏆'},
+    {min:0,   name:'Chồi non',    icon:'🌱', art:'🌱', bg:'linear-gradient(135deg,#DFF3C4,#B4E197)'},
+    {min:50,  name:'Cây xanh',    icon:'🌿', art:'🪴', bg:'linear-gradient(135deg,#B4E197,#2FBF89)'},
+    {min:150, name:'Cây to',      icon:'🌳', art:'🌳', bg:'linear-gradient(135deg,#6BCBEF,#3DA9DC)'},
+    {min:300, name:'Siêu sao',    icon:'⭐', art:'🌟', bg:'linear-gradient(135deg,#FFE9A8,#FFC93C)'},
+    {min:500, name:'Nhà vô địch', icon:'🏆', art:'👑', bg:'linear-gradient(135deg,#FF9F45,#FF6B5E)'},
   ];
+  function levelIdxFor(pts){ let idx = 0; LEVELS.forEach((l,i)=>{ if(pts >= l.min) idx = i; }); return idx; }
+  function bonusForKid(kidId){ return levelIdxFor(totalPoints(kidId)); } // mỗi cấp lên = +1 điểm thưởng cho mỗi việc
+  const PENALTY_REASONS = ['Làm chưa xong','Làm ẩu, chưa sạch','Bỏ dở giữa chừng','Không nghe lời','Trốn việc được giao'];
   const CONFIG_KEY = 'nmcd_firebase_config';
   const FIRED_KEY = 'nmcd_fired_alarms';
   const TRUSTED_KEY = 'nmcd_bome_trusted';
 
-  let kids = [], tasks = [], completions = [], alarms = [];
+  let kids = [], tasks = [], completions = [], alarms = [], penalties = [];
   let pendingTask = null;
   let db = null;
   let ringingAlarmId = null;
@@ -562,11 +642,22 @@
       alarms = snap.docs.map(d=>({id:d.id, ...d.data()}));
       renderAlarms();
     }));
+
+    unsubs.push(db.collection('penalties').onSnapshot(snap=>{
+      penalties = snap.docs.map(d=>({id:d.id, ...d.data()}));
+      render();
+    }));
   }
 
   /* ============ DATA HELPERS ============ */
-  function totalPoints(kidId){
+  function earnedPoints(kidId){
     return completions.filter(c => c.status==='approved' && (c.kidIds||[]).includes(kidId)).reduce((s,c)=> s + c.points, 0);
+  }
+  function penaltyPoints(kidId){
+    return penalties.filter(p => p.kidId === kidId).reduce((s,p)=> s + p.points, 0);
+  }
+  function totalPoints(kidId){
+    return Math.max(0, earnedPoints(kidId) - penaltyPoints(kidId));
   }
   function levelFor(pts){ let lvl = LEVELS[0]; for(const l of LEVELS){ if(pts >= l.min) lvl = l; } return lvl; }
   function nextLevelFor(pts){ for(const l of LEVELS){ if(pts < l.min) return l; } return null; }
@@ -616,17 +707,26 @@
   function renderHistory(){
     const list = $('historyList');
     const tk = todayKey();
-    const items = completions.filter(c => c.dateKey === tk && c.status!=='rejected').slice().sort((a,b)=> b.ts-a.ts);
+    const doneItems = completions.filter(c => c.dateKey === tk && c.status!=='rejected').map(c=>({...c, _type:'task'}));
+    const penItems = penalties.filter(p => p.dateKey === tk).map(p=>({...p, _type:'penalty'}));
+    const items = doneItems.concat(penItems).sort((a,b)=> b.ts-a.ts);
     if(items.length===0){ list.innerHTML = `<div class="empty"><span class="em">🌤️</span>Chưa có việc nào được ghi hôm nay.</div>`; return; }
     list.innerHTML = '';
     items.forEach(h=>{
-      const names = (h.kidIds||[]).map(id => { const k = kids.find(x=>x.id===id); return k? k.name : '(đã xoá)'; }).join(', ');
       const row = document.createElement('div');
-      row.className = 'hist-item' + (h.status==='pending' ? ' pending' : '');
       const time = new Date(h.ts);
       const hh = String(time.getHours()).padStart(2,'0');
       const mm = String(time.getMinutes()).padStart(2,'0');
-      row.innerHTML = `<span class="em">${h.emoji}</span><span class="who">${escapeHtml(names)}</span> đã ${escapeHtml((h.taskName||'').toLowerCase())} <span style="color:var(--mint);font-weight:800;">+${h.points}</span>${h.status==='pending'?'<span class="pending-tag">chờ xác nhận</span>':''}<span class="when">${hh}:${mm}</span>`;
+      if(h._type === 'penalty'){
+        const k = kids.find(x=>x.id===h.kidId);
+        row.className = 'hist-item penalty';
+        row.innerHTML = `<span class="em">⚠️</span><span class="who">${escapeHtml(k?k.name:'(đã xoá)')}</span> bị trừ điểm: ${escapeHtml(h.reason||'')} <span class="amt" style="font-weight:800;">-${h.points}</span><span class="penalty-tag">trừ điểm</span><span class="when">${hh}:${mm}</span>`;
+      } else {
+        const names = (h.kidIds||[]).map(id => { const k = kids.find(x=>x.id===id); return k? k.name : '(đã xoá)'; }).join(', ');
+        row.className = 'hist-item' + (h.status==='pending' ? ' pending' : '');
+        const bonusTxt = h.bonusApplied>0 ? ` <span style="color:var(--sun); font-weight:700; font-size:11px;">(gồm +${h.bonusApplied} thưởng cấp)</span>` : '';
+        row.innerHTML = `<span class="em">${h.emoji}</span><span class="who">${escapeHtml(names)}</span> đã ${escapeHtml((h.taskName||'').toLowerCase())} <span style="color:var(--mint);font-weight:800;">+${h.points}</span>${bonusTxt}${h.status==='pending'?'<span class="pending-tag">chờ xác nhận</span>':''}<span class="when">${hh}:${mm}</span>`;
+      }
       list.appendChild(row);
     });
   }
@@ -652,8 +752,12 @@
       list.appendChild(card);
     });
     list.querySelectorAll('[data-approve]').forEach(b=> b.addEventListener('click', async ()=>{
-      await db.collection('completions').doc(b.dataset.approve).update({status:'approved'});
-      showToast('Đã xác nhận! 🎉');
+      const c = completions.find(x=>x.id===b.dataset.approve);
+      const kidId = c && (c.kidIds||[])[0];
+      const base = (c && (c.basePoints!=null ? c.basePoints : c.points)) || 0;
+      const bonus = kidId ? bonusForKid(kidId) : 0;
+      await db.collection('completions').doc(b.dataset.approve).update({status:'approved', points: base + bonus, basePoints: base, bonusApplied: bonus});
+      showToast(bonus>0 ? `Đã xác nhận! 🎉 (+${bonus} điểm thưởng cấp)` : 'Đã xác nhận! 🎉');
     }));
     list.querySelectorAll('[data-reject]').forEach(b=> b.addEventListener('click', async ()=>{
       await db.collection('completions').doc(b.dataset.reject).update({status:'rejected'});
@@ -670,17 +774,32 @@
       const lvl = levelFor(pts);
       const next = nextLevelFor(pts);
       const pct = next ? Math.round(((pts - lvl.min) / (next.min - lvl.min)) * 100) : 100;
+      const frame = frameById(k.frame);
       const card = document.createElement('div');
       card.className = 'lb-card';
       card.innerHTML = `
+        <div class="lvl-banner" style="background:${lvl.bg};">
+          <span class="art">${lvl.art}</span>
+          <span class="txt">${lvl.name} · thưởng +${levelIdxFor(pts)} điểm mỗi việc</span>
+        </div>
         <div class="lb-top">
-          <div class="av" style="background:${k.color}">${k.avatar}</div>
-          <div class="info"><div class="nm">${escapeHtml(k.name)}</div><div class="lvl">${lvl.icon} ${lvl.name}${next ? ' · còn ' + (next.min-pts) + ' điểm lên '+next.name : ' · Cấp cao nhất!'}</div></div>
+          <div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div>
+          <div class="info"><div class="nm">${escapeHtml(k.name)}</div><div class="lvl">${lvl.icon} ${lvl.name}${next ? ' · còn ' + (next.min-pts) + ' điểm lên '+next.name : ' · Cấp cao nhất!'} · <span class="lvl-link" data-roadmap="${k.id}">xem lộ trình</span></div></div>
           <div class="pts-big">${pts}đ</div>
         </div>
         <div class="jar"><div class="jar-fill" style="width:${pct}%; background:${k.color};"></div></div>
-        <div class="lb-actions"><button class="small-btn" data-reset="${k.id}">Đặt lại điểm bé này</button></div>`;
+        <div class="roadmap" id="roadmap-${k.id}">${buildRoadmapHtml(pts)}</div>
+        <div class="lb-actions">
+          <button class="small-btn" data-reset="${k.id}">Đặt lại điểm bé này</button>
+          <button class="small-btn danger" data-penalty="${k.id}">⚠️ Trừ điểm</button>
+        </div>`;
       list.appendChild(card);
+    });
+    list.querySelectorAll('[data-roadmap]').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        $('roadmap-'+el.dataset.roadmap).classList.toggle('show');
+        el.textContent = $('roadmap-'+el.dataset.roadmap).classList.contains('show') ? 'ẩn lộ trình' : 'xem lộ trình';
+      });
     });
     list.querySelectorAll('[data-reset]').forEach(b=>{
       b.addEventListener('click', async ()=>{
@@ -690,10 +809,26 @@
           completions.filter(c=> c.status==='approved' && (c.kidIds||[]).includes(id)).forEach(c=>{
             batch.update(db.collection('completions').doc(c.id), {status:'rejected'});
           });
+          penalties.filter(p=> p.kidId===id).forEach(p=>{
+            batch.delete(db.collection('penalties').doc(p.id));
+          });
           await batch.commit();
         }
       });
     });
+    list.querySelectorAll('[data-penalty]').forEach(b=>{
+      b.addEventListener('click', ()=> openPenaltyModal(b.dataset.penalty));
+    });
+  }
+
+  function buildRoadmapHtml(pts){
+    const lvl = levelFor(pts);
+    return LEVELS.map(l=>{
+      const isDone = l.min <= lvl.min && l !== lvl;
+      const cls = 'roadmap-row' + (isDone ? ' done' : '') + (l===lvl ? ' current' : '');
+      const rightTxt = l===lvl ? 'Cấp hiện tại' : (l.min > pts ? `Cần ${l.min}đ (còn ${l.min-pts}đ)` : `Đạt lúc ${l.min}đ`);
+      return `<div class="${cls}"><span class="rm-ic">${l.art}</span><span class="rm-name">${l.name}</span><span class="rm-pts">${rightTxt}</span></div>`;
+    }).join('');
   }
   $('resetAllBtn').addEventListener('click', async ()=>{
     if(confirm('Đặt lại điểm của TẤT CẢ thành viên về 0?')){
@@ -708,12 +843,14 @@
     if(kids.length===0){ list.innerHTML = `<div class="empty"><span class="em">👶</span>Chưa có thành viên nào. Nhấn "+ Thêm bé" để bắt đầu!</div>`; return; }
     list.innerHTML = '';
     kids.forEach(k=>{
+      const frame = frameById(k.frame);
       const row = document.createElement('div');
       row.className = 'member-row';
-      row.innerHTML = `<div class="av" style="background:${k.color}">${k.avatar}</div><div class="nm">${escapeHtml(k.name)}</div><span class="pts">${totalPoints(k.id)}đ</span><button class="icon-btn" data-edit="${k.id}">✏️</button>`;
+      row.innerHTML = `<div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div><div class="nm">${escapeHtml(k.name)}</div><span class="pts">${totalPoints(k.id)}đ</span><button class="icon-btn" data-penalty="${k.id}" title="Trừ điểm" style="background:rgba(255,107,94,0.15); color:var(--coral);">⚠️</button><button class="icon-btn" data-edit="${k.id}">✏️</button>`;
       list.appendChild(row);
     });
     list.querySelectorAll('[data-edit]').forEach(b=> b.addEventListener('click', ()=> openKidModal(b.dataset.edit)));
+    list.querySelectorAll('[data-penalty]').forEach(b=> b.addEventListener('click', ()=> openPenaltyModal(b.dataset.penalty)));
   }
 
   function renderAlarms(){
@@ -756,12 +893,21 @@
     $('confirmDoneBtn').onclick = async ()=>{
       const ids = Array.from(wrap.querySelectorAll('.kb.sel')).map(el=>el._kidId);
       if(ids.length===0){ showToast('Hãy chọn ít nhất 1 bé nhé!'); return; }
-      await db.collection('completions').add({
-        kidIds: ids, taskId: pendingTask.id||null, taskName: pendingTask.name,
-        emoji: pendingTask.emoji, points: pendingTask.points, ts: Date.now(), dateKey: todayKey(), status:'approved'
+      const batch = db.batch();
+      let bonusMsg = '';
+      ids.forEach(kidId=>{
+        const bonus = bonusForKid(kidId);
+        if(bonus>0) bonusMsg = ` (có ${bonus} điểm thưởng cấp)`;
+        const ref = db.collection('completions').doc();
+        batch.set(ref, {
+          kidIds: [kidId], taskId: pendingTask.id||null, taskName: pendingTask.name,
+          emoji: pendingTask.emoji, basePoints: pendingTask.points, points: pendingTask.points + bonus,
+          bonusApplied: bonus, ts: Date.now(), dateKey: todayKey(), status:'approved'
+        });
       });
+      await batch.commit();
       $('confirmOverlay').classList.remove('show');
-      showToast('Đã ghi nhận & cộng điểm! 🎉');
+      showToast('Đã ghi nhận & cộng điểm! 🎉' + bonusMsg);
     };
   }
   $('confirmOverlay').addEventListener('click', (e)=>{ if(e.target.id==='confirmOverlay') $('confirmOverlay').classList.remove('show'); });
@@ -800,15 +946,41 @@
   function openKidModal(kidId){
     const isEdit = !!kidId;
     $('kidModalTitle').textContent = isEdit ? 'Sửa thành viên' : 'Thêm thành viên';
-    const k = isEdit ? kids.find(x=>x.id===kidId) : {name:'', avatar: KID_EMOJIS[0], color: KID_COLORS[0]};
+    const k = isEdit ? kids.find(x=>x.id===kidId) : {name:'', avatar: KID_EMOJIS[0], color: KID_COLORS[0], frame:'none'};
     $('kidNameInput').value = k.name;
+    const kidLvlIdx = isEdit ? levelIdxFor(totalPoints(kidId)) : 0;
+
     const avPick = $('kidAvatarPick'); avPick.innerHTML = ''; let selAv = k.avatar;
-    KID_EMOJIS.forEach(em=>{
-      const s = document.createElement('span'); s.textContent = em;
-      if(em===selAv) s.classList.add('sel');
-      s.addEventListener('click', ()=>{ avPick.querySelectorAll('span').forEach(x=>x.classList.remove('sel')); s.classList.add('sel'); selAv = em; });
-      avPick.appendChild(s);
+    AVATAR_TIERS.forEach(tier=>{
+      const locked = tier.levelIdx > kidLvlIdx;
+      const label = document.createElement('div');
+      label.className = 'tier-label';
+      label.innerHTML = `${LEVELS[tier.levelIdx].icon} Cấp ${tier.levelIdx+1} · ${LEVELS[tier.levelIdx].name}${locked ? ' <span class="lockline">(bé chưa mở khoá)</span>' : ''}`;
+      avPick.appendChild(label);
+      const row = document.createElement('div');
+      row.className = 'emoji-pick';
+      tier.items.forEach(em=>{
+        const s = document.createElement('span'); s.textContent = em;
+        if(locked) s.classList.add('locked');
+        if(em===selAv) s.classList.add('sel');
+        if(locked){ const dot = document.createElement('span'); dot.className='lock-dot'; dot.textContent='🔒'; s.appendChild(dot); }
+        s.addEventListener('click', ()=>{ avPick.querySelectorAll('span[data-em]').forEach(x=>x.classList.remove('sel')); s.classList.add('sel'); selAv = em; });
+        s.dataset.em = em;
+        row.appendChild(s);
+      });
+      avPick.appendChild(row);
     });
+
+    const framePick = $('kidFramePick'); framePick.innerHTML = ''; let selFrame = k.frame || 'none';
+    FRAMES.forEach(fr=>{
+      const locked = fr.levelIdx > kidLvlIdx;
+      const chip = document.createElement('div');
+      chip.className = 'fchip' + (locked ? ' locked' : '') + (fr.id===selFrame ? ' sel' : '');
+      chip.innerHTML = `<span>${fr.badge || '⚪'}</span><span>${fr.name}</span>${locked ? '<span>🔒</span>' : ''}`;
+      chip.addEventListener('click', ()=>{ framePick.querySelectorAll('.fchip').forEach(x=>x.classList.remove('sel')); chip.classList.add('sel'); selFrame = fr.id; });
+      framePick.appendChild(chip);
+    });
+
     const colPick = $('kidColorPick'); colPick.innerHTML = ''; let selColor = k.color;
     KID_COLORS.forEach(c=>{
       const s = document.createElement('span'); s.style.background = c;
@@ -823,14 +995,44 @@
     $('saveKidBtn').onclick = async ()=>{
       const name = $('kidNameInput').value.trim();
       if(!name){ showToast('Nhập tên bé nhé!'); return; }
-      if(isEdit){ await db.collection('kids').doc(kidId).update({name, avatar: selAv, color: selColor}); }
-      else { await db.collection('kids').add({name, avatar: selAv, color: selColor, createdAt: Date.now()}); }
+      if(isEdit){ await db.collection('kids').doc(kidId).update({name, avatar: selAv, color: selColor, frame: selFrame}); }
+      else { await db.collection('kids').add({name, avatar: selAv, color: selColor, frame: selFrame, createdAt: Date.now()}); }
       $('kidOverlay').classList.remove('show');
     };
     $('kidOverlay').classList.add('show');
   }
   $('addKidBtn').addEventListener('click', ()=> openKidModal(null));
   $('kidOverlay').addEventListener('click', (e)=>{ if(e.target.id==='kidOverlay') $('kidOverlay').classList.remove('show'); });
+
+  /* ============ PENALTY MODAL (trừ điểm) ============ */
+  function openPenaltyModal(kidId){
+    const k = kids.find(x=>x.id===kidId);
+    $('penaltyTitle').textContent = k ? `Trừ điểm của ${k.name}` : 'Trừ điểm';
+    $('penaltyReasonInput').value = '';
+    $('penaltyPointsInput').value = 5;
+    const pick = $('penaltyReasonPick'); pick.innerHTML = ''; let selReason = '';
+    PENALTY_REASONS.forEach(r=>{
+      const s = document.createElement('span'); s.textContent = r;
+      s.addEventListener('click', ()=>{
+        pick.querySelectorAll('span').forEach(x=>x.classList.remove('sel'));
+        if(selReason===r){ selReason=''; } else { s.classList.add('sel'); selReason = r; }
+        $('penaltyReasonInput').value = selReason;
+      });
+      pick.appendChild(s);
+    });
+    $('penaltyReasonInput').addEventListener('input', ()=>{
+      pick.querySelectorAll('span').forEach(x=>x.classList.remove('sel'));
+    });
+    $('savePenaltyBtn').onclick = async ()=>{
+      const reason = $('penaltyReasonInput').value.trim() || 'Chưa hoàn thành tốt';
+      const points = parseInt($('penaltyPointsInput').value) || 1;
+      await db.collection('penalties').add({kidId, reason, points, ts: Date.now(), dateKey: todayKey()});
+      $('penaltyOverlay').classList.remove('show');
+      showToast('Đã trừ điểm.');
+    };
+    $('penaltyOverlay').classList.add('show');
+  }
+  $('penaltyOverlay').addEventListener('click', (e)=>{ if(e.target.id==='penaltyOverlay') $('penaltyOverlay').classList.remove('show'); });
 
   /* ============ ALARM MODAL ============ */
   $('addAlarmBtn').addEventListener('click', ()=>{
