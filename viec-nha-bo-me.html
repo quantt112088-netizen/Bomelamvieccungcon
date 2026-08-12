@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Nhà Mình Cùng Dọn · Bố Mẹ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6E7; --card:#FFFFFF; --ink:#3A2E27; --ink-soft:#8A7A6D;
+    --sun:#FFC93C; --coral:#FF6B5E; --mint:#2FBF89; --sky:#3DA9DC; --lav:#9B7EDE;
+    --line:#F0E4D0; --shadow: 0 6px 0 rgba(58,46,39,0.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--cream);
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(155,126,222,0.22) 0, transparent 40%),
+      radial-gradient(circle at 92% 85%, rgba(61,169,220,0.18) 0, transparent 40%);
+    color: var(--ink); font-family:'Nunito', sans-serif; min-height:100vh; -webkit-tap-highlight-color: transparent;
+  }
+  h1,h2,h3, .display{ font-family:'Baloo 2', sans-serif; }
+  .wrap{ max-width: 560px; margin:0 auto; padding: 18px 16px 100px; }
+  .topbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand .logo{ width:44px;height:44px; border-radius:14px; background:linear-gradient(155deg, var(--lav), var(--sky)); display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow: var(--shadow); }
+  .brand h1{ font-size:18px; margin:0; line-height:1.15; }
+  .brand .sub{ font-size:12px; color:var(--ink-soft); font-weight:700; display:flex; align-items:center; gap:5px; }
+  .dot{ width:8px;height:8px;border-radius:50%; display:inline-block; }
+  .dot.on{ background: var(--mint); } .dot.off{ background: var(--coral); }
+  .gear-btn{ border:none; background:var(--card); border:2px solid var(--line); width:38px;height:38px; border-radius:12px; font-size:16px; cursor:pointer; }
+  .role-pill{ font-size:11px; background:var(--lav); color:#fff; padding:5px 10px; border-radius:999px; font-weight:800; display:inline-block; margin-bottom:12px; }
+  .date-pill{ font-size:12px; background:var(--card); border:2px solid var(--line); padding:6px 12px; border-radius:999px; font-weight:700; color:var(--ink-soft); display:inline-block; margin-bottom:14px; margin-left:6px; }
+
+  .nav{ display:flex; gap:5px; background:var(--card); padding:6px; border-radius:16px; border:2px solid var(--line); margin-bottom:18px; overflow-x:auto; }
+  .nav button{ position:relative; flex:1; min-width:64px; border:none; background:transparent; padding:10px 4px; border-radius:12px; font-family:'Baloo 2'; font-weight:700; font-size:12px; color:var(--ink-soft); cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:2px; transition: all .15s; }
+  .nav button .ic{ font-size:18px; }
+  .nav button.active{ background:var(--ink); color:#fff; box-shadow: var(--shadow); }
+  .badge{ position:absolute; top:2px; right:6px; background:var(--coral); color:#fff; font-size:10px; font-weight:800; border-radius:999px; min-width:16px; height:16px; display:flex; align-items:center; justify-content:center; padding:0 4px; }
+
+  .view{ display:none; animation: fade .25s ease; }
+  .view.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .section-head{ display:flex; align-items:center; justify-content:space-between; margin: 4px 0 12px; gap:8px; }
+  .section-head h2{ font-size:18px; margin:0; }
+  .ghost-btn{ border:2px dashed var(--ink-soft); background:transparent; color:var(--ink); font-family:'Baloo 2'; font-weight:700; font-size:12px; padding:8px 10px; border-radius:12px; cursor:pointer; white-space:nowrap; }
+
+  .task-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+  .task-card{ position:relative; background:var(--card); border:2px solid var(--line); border-radius:18px; padding:16px 12px; text-align:center; cursor:pointer; box-shadow: var(--shadow); transition: transform .1s; }
+  .task-card:active{ transform: translateY(3px); box-shadow:none; }
+  .task-card .em{ font-size:34px; display:block; margin-bottom:6px; }
+  .task-card .nm{ font-family:'Baloo 2'; font-weight:700; font-size:14px; display:block; }
+  .task-card .pt{ display:inline-block; margin-top:6px; background:var(--sun); color:var(--ink); font-weight:800; font-size:11px; padding:3px 9px; border-radius:999px; }
+  .task-card .edit-pin{ position:absolute; top:8px; right:8px; width:26px; height:26px; border-radius:8px; background:var(--line); border:none; font-size:12px; cursor:pointer; }
+  .task-card.add-new{ border-style:dashed; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--ink-soft); }
+  .task-card.add-new .em{ font-size:26px; }
+
+  .lb-card{ background:var(--card); border:2px solid var(--line); border-radius:20px; padding:16px; margin-bottom:14px; box-shadow: var(--shadow); }
+  .lvl-banner{ display:flex; align-items:center; gap:10px; border-radius:14px; padding:10px 12px; margin-bottom:12px; }
+  .lvl-banner .art{ font-size:30px; }
+  .lvl-banner .txt{ font-family:'Baloo 2'; font-weight:800; font-size:14px; color:var(--ink); }
+  .lb-top{ display:flex; align-items:center; gap:12px; }
+  .av-wrap{ position:relative; flex:0 0 auto; }
+  .av-wrap .frame-badge{ position:absolute; bottom:-4px; right:-4px; font-size:15px; background:#fff; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 4px rgba(0,0,0,0.15); }
+  .lb-top .av{ width:56px;height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:26px; flex:0 0 auto; }
+  .lb-top .info{ flex:1; }
+  .lb-top .info .nm{ font-family:'Baloo 2'; font-weight:800; font-size:17px; }
+  .lb-top .info .lvl{ font-size:12px; font-weight:700; color:var(--ink-soft); }
+  .lb-top .pts-big{ font-family:'Baloo 2'; font-size:22px; font-weight:800; }
+  .jar{ margin-top:12px; height:16px; border-radius:999px; background:var(--line); overflow:hidden; position:relative; }
+  .jar-fill{ height:100%; border-radius:999px; transition: width .4s ease; }
+  .lb-actions{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .small-btn{ font-size:12px; font-weight:700; border:2px solid var(--line); background:transparent; border-radius:10px; padding:6px 10px; cursor:pointer; color:var(--ink-soft); }
+  .small-btn.danger{ border-color: rgba(255,107,94,0.4); color: var(--coral); }
+  .lvl-link{ font-size:11px; font-weight:800; color:var(--sky); cursor:pointer; text-decoration:underline; }
+  .roadmap{ display:none; margin-top:12px; border-top:2px dashed var(--line); padding-top:10px; }
+  .roadmap.show{ display:block; }
+  .roadmap-row{ display:flex; align-items:center; gap:8px; padding:6px 2px; font-size:12px; }
+  .roadmap-row .rm-ic{ font-size:18px; width:24px; text-align:center; }
+  .roadmap-row .rm-name{ font-weight:800; flex:1; }
+  .roadmap-row .rm-pts{ color:var(--ink-soft); font-weight:700; }
+  .roadmap-row.done{ opacity:.55; }
+  .roadmap-row.current{ background:var(--cream); border-radius:8px; }
+  .roadmap-row.current .rm-name{ color:var(--mint); }
+
+  .hist-item{ display:flex; align-items:center; gap:10px; padding:8px 4px; border-bottom:1px solid var(--line); font-size:13px; }
+  .hist-item .em{ font-size:18px; }
+  .hist-item .who{ font-weight:800; }
+  .hist-item .when{ margin-left:auto; color:var(--ink-soft); font-size:11px; }
+  .hist-item.pending{ opacity:.7; }
+  .hist-item.penalty .amt{ color: var(--coral); }
+  .pending-tag{ background:var(--sun); color:var(--ink); font-size:10px; font-weight:800; padding:2px 7px; border-radius:999px; }
+  .penalty-tag{ background:rgba(255,107,94,0.15); color:var(--coral); font-size:10px; font-weight:800; padding:2px 7px; border-radius:999px; }
+  .reason-pick{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .reason-pick span{ font-size:12px; font-weight:700; padding:8px 12px; border-radius:999px; border:2px solid var(--line); cursor:pointer; background:#fff; color:var(--ink-soft); }
+  .reason-pick span.sel{ border-color: var(--coral); background:rgba(255,107,94,0.12); color:var(--coral); }
+
+  .confirm-card{ background:var(--card); border:2px solid var(--line); border-radius:18px; padding:14px; margin-bottom:12px; box-shadow: var(--shadow); }
+  .confirm-card .row1{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .confirm-card .em{ font-size:28px; }
+  .confirm-card .txt{ flex:1; }
+  .confirm-card .txt .who{ font-family:'Baloo 2'; font-weight:800; font-size:15px; }
+  .confirm-card .txt .what{ font-size:12px; color:var(--ink-soft); }
+  .confirm-card .pt{ font-family:'Baloo 2'; font-weight:800; color:var(--mint); }
+  .confirm-actions{ display:flex; gap:8px; }
+  .confirm-actions button{ flex:1; border:none; padding:10px; border-radius:12px; font-family:'Baloo 2'; font-weight:800; font-size:13px; cursor:pointer; }
+  .btn-ok{ background: var(--mint); color:#fff; }
+  .btn-no{ background: var(--line); color: var(--ink-soft); }
+
+  .member-row{ display:flex; align-items:center; gap:12px; background:var(--card); border:2px solid var(--line); border-radius:16px; padding:12px; margin-bottom:10px; }
+  .member-row .av{ width:44px;height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; flex:0 0 auto; }
+  .member-row .nm{ font-weight:800; flex:1; font-family:'Baloo 2'; }
+  .member-row .pts{ font-size:12px; color:var(--ink-soft); font-weight:700; margin-right:4px; }
+  .icon-btn{ border:none; background:var(--line); width:32px;height:32px; border-radius:10px; cursor:pointer; font-size:14px; }
+
+  .alarm-row{ display:flex; align-items:center; gap:12px; background:var(--card); border:2px solid var(--line); border-radius:16px; padding:14px; margin-bottom:10px; }
+  .alarm-row .time{ font-family:'Baloo 2'; font-size:24px; font-weight:800; flex:1; }
+  .alarm-row .lbl{ font-size:12px; color:var(--ink-soft); font-weight:700; }
+  .switch{ position:relative; width:46px; height:26px; flex:0 0 auto; }
+  .switch input{ opacity:0; width:0; height:0; }
+  .slider{ position:absolute; inset:0; background:var(--line); border-radius:999px; cursor:pointer; transition:.2s; }
+  .slider:before{ content:""; position:absolute; width:20px;height:20px; left:3px;top:3px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+  .switch input:checked + .slider{ background: var(--mint); }
+  .switch input:checked + .slider:before{ transform: translateX(20px); }
+
+  .overlay{ position:fixed; inset:0; background:rgba(58,46,39,0.55); display:none; align-items:flex-end; justify-content:center; z-index:50; }
+  .overlay.show{ display:flex; }
+  .sheet{ background:var(--cream); width:100%; max-width:560px; border-radius:24px 24px 0 0; padding:20px; max-height:85vh; overflow-y:auto; animation: up .25s ease; }
+  @keyframes up{ from{ transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+  .sheet h3{ margin:0 0 14px; font-size:18px; }
+  .field{ margin-bottom:14px; }
+  .field label{ display:block; font-size:12px; font-weight:800; color:var(--ink-soft); margin-bottom:6px; }
+  .field input[type=text], .field input[type=number], .field input[type=time], .field input[type=password]{ width:100%; padding:12px 14px; border-radius:12px; border:2px solid var(--line); font-size:15px; font-family:'Nunito'; background:#fff; }
+  .emoji-pick{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .emoji-pick span{ position:relative; font-size:22px; padding:6px 8px; border-radius:10px; border:2px solid var(--line); cursor:pointer; background:#fff; }
+  .emoji-pick span.sel{ border-color: var(--ink); background: var(--sun); }
+  .emoji-pick span.locked{ opacity:.4; }
+  .emoji-pick span.locked .lock-dot{ position:absolute; top:-5px; right:-5px; font-size:10px; }
+  .tier-label{ font-size:11px; font-weight:800; color:var(--ink-soft); margin:10px 0 4px; display:flex; align-items:center; gap:5px; }
+  .tier-label .lockline{ opacity:.6; }
+  .frame-pick{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .frame-pick .fchip{ position:relative; display:flex; align-items:center; gap:6px; padding:8px 10px; border-radius:12px; border:2px solid var(--line); cursor:pointer; background:#fff; font-size:12px; font-weight:700; }
+  .frame-pick .fchip.sel{ border-color: var(--ink); background: var(--cream); }
+  .frame-pick .fchip.locked{ opacity:.45; }
+  .color-pick{ display:flex; gap:8px; margin-top:6px; }
+  .color-pick span{ width:34px;height:34px; border-radius:50%; cursor:pointer; border:3px solid transparent; }
+  .color-pick span.sel{ border-color: var(--ink); }
+  .primary-btn{ width:100%; background:var(--ink); color:#fff; border:none; padding:14px; border-radius:14px; font-family:'Baloo 2'; font-weight:800; font-size:16px; cursor:pointer; }
+  .danger-link{ text-align:center; display:block; margin-top:10px; color:var(--coral); font-weight:700; font-size:13px; cursor:pointer; }
+
+  .confirm-kids{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+  .confirm-kids .kb{ display:flex; align-items:center; gap:8px; border:2px solid var(--line); border-radius:14px; padding:8px 12px; cursor:pointer; font-weight:800; }
+  .confirm-kids .kb.sel{ border-color: var(--ink); background:#fff; }
+  .empty{ text-align:center; padding:40px 20px; color:var(--ink-soft); }
+  .empty .em{ font-size:44px; display:block; margin-bottom:10px; }
+  .empty b{ color:var(--ink); }
+  .toast{ position:fixed; top:16px; left:50%; transform:translateX(-50%) translateY(-30px); background:var(--ink); color:#fff; padding:12px 20px; border-radius:14px; font-family:'Baloo 2'; font-weight:700; font-size:14px; z-index:80; opacity:0; transition:.3s; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .ring-screen{ position:fixed; inset:0; background:linear-gradient(160deg, var(--lav), var(--sky)); z-index:100; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#fff; }
+  .ring-screen.show{ display:flex; }
+  .ring-screen .bell{ font-size:80px; animation: shake 0.6s infinite; }
+  @keyframes shake{ 0%,100%{transform:rotate(0);} 25%{transform:rotate(-12deg);} 75%{transform:rotate(12deg);} }
+  .ring-screen h2{ font-size:28px; margin:14px 0 4px; }
+  .ring-screen p{ font-weight:700; opacity:.9; }
+  .stop-btn{ margin-top:30px; background:#fff; color:var(--lav); border:none; padding:16px 40px; border-radius:999px; font-family:'Baloo 2'; font-weight:800; font-size:18px; cursor:pointer; box-shadow:0 6px 0 rgba(0,0,0,0.15); }
+  .note-box{ background:#fff; border:2px dashed var(--line); border-radius:14px; padding:12px 14px; font-size:12px; color:var(--ink-soft); margin-bottom:16px; line-height:1.5; }
+
+  .full-screen{ position:fixed; inset:0; background:var(--cream); z-index:200; overflow-y:auto; display:none; }
+  .full-screen.show{ display:block; }
+  .setup-inner{ max-width:480px; margin:0 auto; padding:30px 20px 60px; }
+  .setup-inner .hero{ text-align:center; margin-bottom:20px; }
+  .setup-inner .hero .em{ font-size:50px; }
+  .setup-inner h2{ margin:6px 0 4px; }
+  .setup-inner p.sub{ color:var(--ink-soft); font-size:13px; line-height:1.5; }
+  .setup-inner textarea{ width:100%; min-height:110px; border-radius:12px; border:2px solid var(--line); padding:12px; font-family:monospace; font-size:12px; }
+  .or-div{ text-align:center; color:var(--ink-soft); font-size:12px; font-weight:800; margin:16px 0; }
+</style>
+</head>
+<body>
+
+<div id="bootLoading" style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px;">
+  <div style="font-size:44px; margin-bottom:10px;">🔗</div>
+  <div style="font-family:'Baloo 2'; font-weight:700; font-size:15px; color:var(--ink-soft);" id="bootLoadingText">Đang chuẩn bị kết nối...</div>
+  <div id="bootErrorBox" style="display:none; margin-top:18px; max-width:320px;">
+    <p style="font-size:13px; color:var(--coral); font-weight:700;">Không tải được thư viện kết nối. Kiểm tra mạng wifi/4G rồi thử lại nhé.</p>
+    <button class="primary-btn" id="bootRetryBtn">Thử lại</button>
+  </div>
+</div>
+
+<!-- SETUP SCREEN (Firebase config) -->
+<div class="full-screen" id="setupScreen">
+  <div class="setup-inner">
+    <div class="hero"><span class="em">🔗</span>
+      <h2>Kết nối dữ liệu chung</h2>
+      <p class="sub">Dán đoạn cấu hình Firebase (firebaseConfig) lấy từ console.firebase.google.com. Dán <b>cùng một đoạn này</b> trên app Bố Mẹ và app Của Con, trên mọi thiết bị, để dữ liệu đồng bộ với nhau.</p>
+    </div>
+    <div class="field">
+      <label>Dán cả đoạn code firebaseConfig vào đây</label>
+      <textarea id="configTextarea" placeholder='const firebaseConfig = {
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "...",
+  ...
+};'></textarea>
+    </div>
+    <button class="primary-btn" id="saveConfigBtn">Kết nối</button>
+    <div id="setupError" style="color:var(--coral); font-size:12px; font-weight:700; margin-top:10px; text-align:center;"></div>
+    <div class="or-div">HOẶC</div>
+    <div class="field">
+      <label>Nhập từng ô riêng lẻ</label>
+      <input type="text" id="apiKeyInput" placeholder="apiKey" style="margin-bottom:8px;">
+      <input type="text" id="authDomainInput" placeholder="authDomain" style="margin-bottom:8px;">
+      <input type="text" id="projectIdInput" placeholder="projectId" style="margin-bottom:8px;">
+      <input type="text" id="appIdInput" placeholder="appId">
+    </div>
+  </div>
+</div>
+
+<!-- PIN SETUP / ENTRY SCREEN (parent-only gate) -->
+<div class="full-screen" id="pinScreen">
+  <div class="setup-inner">
+    <div class="hero"><span class="em">🔒</span>
+      <h2 id="pinTitle">Đặt mã PIN cho Bố Mẹ</h2>
+      <p class="sub" id="pinSub">Mã PIN này giúp chỉ Bố Mẹ mới chỉnh sửa được, dùng chung cho cả bố và mẹ. Con sẽ không dùng app này.</p>
+    </div>
+    <div class="field"><label id="pinLabel1">Nhập mã PIN (4-6 số)</label><input type="password" inputmode="numeric" id="pinInput1" placeholder="••••"></div>
+    <div class="field" id="pinConfirmWrap"><label>Nhập lại mã PIN</label><input type="password" inputmode="numeric" id="pinInput2" placeholder="••••"></div>
+    <button class="primary-btn" id="pinSubmitBtn">Xác nhận</button>
+    <div id="pinError" style="color:var(--coral); font-size:12px; font-weight:700; margin-top:10px; text-align:center;"></div>
+  </div>
+</div>
+
+<div class="wrap" id="mainWrap" style="display:none;">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">👪</div>
+      <div>
+        <h1>Nhà Mình Cùng Dọn</h1>
+        <div class="sub"><span class="dot off" id="connDot"></span><span id="connText">Đang kết nối...</span></div>
+      </div>
+    </div>
+    <button class="gear-btn" id="openSettingsBtn">⚙️</button>
+  </div>
+  <span class="role-pill">👪 Bố Mẹ · Toàn quyền</span>
+  <span class="date-pill" id="todayPill"></span>
+
+  <div class="nav">
+    <button class="active" data-view="confirm"><span class="ic">✅</span>Xác nhận<span class="badge" id="pendingBadge" style="display:none;">0</span></button>
+    <button data-view="tasks"><span class="ic">🧹</span>Việc</button>
+    <button data-view="board"><span class="ic">🏆</span>Bảng điểm</button>
+    <button data-view="members"><span class="ic">👦</span>Thành viên</button>
+    <button data-view="alarm"><span class="ic">⏰</span>Báo thức</button>
+  </div>
+
+  <div class="view active" id="view-confirm">
+    <div class="section-head"><h2>Chờ xác nhận</h2></div>
+    <div class="note-box">Đây là những việc các bé báo đã làm xong. Xác nhận để cộng điểm, hoặc từ chối nếu chưa đúng.</div>
+    <div id="confirmList"></div>
+  </div>
+
+  <div class="view" id="view-tasks">
+    <div class="section-head"><h2>Danh sách việc nhà</h2></div>
+    <div class="note-box">Bấm vào 1 việc để <b>ghi nhận luôn</b> (tự động cộng điểm, không cần chờ xác nhận). Bấm ✏️ ở góc thẻ để sửa hoặc xoá việc đó. Bé càng lên cấp cao, mỗi việc càng được <b>cộng thêm điểm thưởng</b> (Cây to +2, Siêu sao +3, Nhà vô địch +4...).</div>
+    <div class="task-grid" id="taskGrid"></div>
+    <div class="section-head" style="margin-top:22px;"><h2>Hôm nay</h2></div>
+    <div id="historyList"></div>
+  </div>
+
+  <div class="view" id="view-board">
+    <div class="section-head"><h2>Bảng xếp hạng</h2>
+      <button class="ghost-btn" id="resetAllBtn">↺ Đặt lại điểm</button>
+    </div>
+    <div id="boardList"></div>
+  </div>
+
+  <div class="view" id="view-members">
+    <div class="section-head"><h2>Thành viên</h2>
+      <button class="ghost-btn" id="addKidBtn">+ Thêm bé</button>
+    </div>
+    <div id="memberList"></div>
+  </div>
+
+  <div class="view" id="view-alarm">
+    <div class="section-head"><h2>Báo thức nhắc việc</h2>
+      <button class="ghost-btn" id="addAlarmBtn">+ Thêm báo thức</button>
+    </div>
+    <div class="note-box">⚠️ Báo thức chỉ reo trên thiết bị nào đang mở sẵn app (Bố Mẹ hoặc Của Con) vào đúng giờ đó. Giờ báo thức được đồng bộ cho mọi máy.</div>
+    <div id="alarmList"></div>
+  </div>
+</div>
+
+<!-- SETTINGS SHEET -->
+<div class="overlay" id="settingsOverlay">
+  <div class="sheet">
+    <h3>Cài đặt</h3>
+    <p style="font-size:13px; color:var(--ink-soft);">Project đang kết nối: <b id="currentProjectId">-</b></p>
+    <button class="primary-btn" id="changePinBtn">Đổi mã PIN</button>
+    <button class="primary-btn" id="reconfigureBtn" style="margin-top:10px; background:var(--sky);">Đổi kết nối / Kết nối lại</button>
+    <button class="primary-btn" id="logoutBtn" style="margin-top:10px; background:var(--coral);">Khoá lại (đăng xuất)</button>
+    <span class="danger-link" id="closeSettingsLink">Đóng</span>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="overlay" id="confirmOverlay">
+  <div class="sheet">
+    <h3 id="confirmTitle">Ai đã làm việc này?</h3>
+    <div class="confirm-kids" id="confirmKids"></div>
+    <button class="primary-btn" id="confirmDoneBtn">Ghi nhận &amp; cộng điểm ngay ✅</button>
+  </div>
+</div>
+
+<div class="overlay" id="taskOverlay">
+  <div class="sheet">
+    <h3 id="taskModalTitle">Thêm việc mới</h3>
+    <div class="field"><label>Tên việc</label><input type="text" id="taskNameInput" placeholder="VD: Tưới cây"></div>
+    <div class="field"><label>Chọn biểu tượng</label><div class="emoji-pick" id="taskEmojiPick"></div></div>
+    <div class="field"><label>Điểm thưởng</label><input type="number" id="taskPointsInput" min="1" max="100" value="10"></div>
+    <button class="primary-btn" id="saveTaskBtn">Lưu việc này</button>
+    <span class="danger-link" id="deleteTaskLink" style="display:none;">Xoá việc này</span>
+  </div>
+</div>
+
+<div class="overlay" id="kidOverlay">
+  <div class="sheet">
+    <h3 id="kidModalTitle">Thêm thành viên</h3>
+    <div class="field"><label>Tên bé</label><input type="text" id="kidNameInput" placeholder="VD: Bin"></div>
+    <div class="field"><label>Chọn hình đại diện</label><div id="kidAvatarPick"></div></div>
+    <div class="field"><label>Chọn khung hình</label><div class="frame-pick" id="kidFramePick"></div></div>
+    <div class="field"><label>Chọn màu</label><div class="color-pick" id="kidColorPick"></div></div>
+    <div class="note-box" style="margin-bottom:0;">🔒 = bé cần lên tới cấp đó mới tự mở khoá được trong app "Của Con". Ở đây bố mẹ vẫn chọn được mọi icon/khung cho con.</div>
+    <button class="primary-btn" id="saveKidBtn" style="margin-top:14px;">Lưu thành viên</button>
+    <span class="danger-link" id="deleteKidLink" style="display:none;">Xoá thành viên</span>
+  </div>
+</div>
+
+<div class="overlay" id="penaltyOverlay">
+  <div class="sheet">
+    <h3 id="penaltyTitle">Trừ điểm</h3>
+    <div class="field"><label>Lý do</label>
+      <div class="reason-pick" id="penaltyReasonPick"></div>
+      <input type="text" id="penaltyReasonInput" placeholder="Hoặc nhập lý do khác..." style="margin-top:8px;">
+    </div>
+    <div class="field"><label>Số điểm trừ</label><input type="number" id="penaltyPointsInput" min="1" max="100" value="5"></div>
+    <button class="primary-btn" id="savePenaltyBtn" style="background:var(--coral);">Trừ điểm ngay ⚠️</button>
+  </div>
+</div>
+
+<div class="overlay" id="alarmOverlay">
+  <div class="sheet">
+    <h3>Thêm báo thức</h3>
+    <div class="field"><label>Giờ nhắc</label><input type="time" id="alarmTimeInput"></div>
+    <div class="field"><label>Nội dung nhắc</label><input type="text" id="alarmLabelInput" placeholder="VD: Đến giờ dọn phòng!"></div>
+    <button class="primary-btn" id="saveAlarmBtn">Lưu báo thức</button>
+  </div>
+</div>
+
+<div class="ring-screen" id="ringScreen">
+  <div class="bell">⏰</div>
+  <h2 id="ringLabel">Đến giờ dọn nhà rồi!</h2>
+  <p>Nhấn để tắt báo thức</p>
+  <button class="stop-btn" id="stopRingBtn">Tắt báo thức</button>
+</div>
+
+<script>
+(function(){
+  // Kho icon đại diện, chia theo tầng (tier) mở khoá dần theo cấp độ của bé — phù hợp cả bé trai & bé gái
+  const AVATAR_TIERS = [
+    { levelIdx:0, items:['👦','👧','🧒','👶','🧑','👱','👱‍♀️','🧑‍🦱','👩‍🦱','🧑‍🦰','👩‍🦰','🧑‍🦳'] },
+    { levelIdx:1, items:['🐼','🐱','🐶','🦁','🐰','🐸','🦊','🐯','🐨','🐵','🐮','🐷'] },
+    { levelIdx:2, items:['🐹','🐭','🦄','🐻','🐔','🐧','🦉','🐢','🐬','🦋','🐝','🐙'] },
+    { levelIdx:3, items:['🦖','🦕','🐲','🧚','🧜','🧙','🦸','🦸‍♀️','🦹','🥷','👽','🤖'] },
+    { levelIdx:4, items:['⭐','🌈','⚽','🎨','🚀','🎮','👑','💎'] },
+  ];
+  const KID_EMOJIS = AVATAR_TIERS.flatMap(t=>t.items);
+  function avatarTierIdx(emoji){ const t = AVATAR_TIERS.find(t=> t.items.includes(emoji)); return t ? t.levelIdx : 0; }
+
+  // Khung hình trang trí quanh avatar, mở khoá dần theo cấp độ — kiểu dáng trung tính, hợp cho cả bé trai & bé gái
+  const FRAMES = [
+    { id:'none', name:'Không khung', levelIdx:0, badge:'', style:'' },
+    { id:'dot', name:'Viền chấm bi', levelIdx:0, badge:'⚪', style:'border:3px dashed var(--ink-soft);' },
+    { id:'star', name:'Viền ngôi sao', levelIdx:1, badge:'⭐', style:'border:3px solid var(--sun); box-shadow:0 0 0 3px rgba(255,201,60,0.35);' },
+    { id:'flower', name:'Viền hoa', levelIdx:1, badge:'🌸', style:'border:3px solid #FF8FA3; box-shadow:0 0 0 3px rgba(255,143,163,0.3);' },
+    { id:'wave', name:'Viền sóng biển', levelIdx:2, badge:'🌊', style:'border:3px solid var(--sky); box-shadow:0 0 0 3px rgba(61,169,220,0.3);' },
+    { id:'rainbow', name:'Viền cầu vồng', levelIdx:2, badge:'🌈', style:'border:3px solid #2FBF89; box-shadow:0 0 0 3px rgba(255,107,94,0.25), 0 0 0 6px rgba(61,169,220,0.2);' },
+    { id:'galaxy', name:'Viền thiên hà', levelIdx:3, badge:'🌌', style:'border:3px solid var(--lav); box-shadow:0 0 0 4px rgba(155,126,222,0.35);' },
+    { id:'hero', name:'Viền siêu anh hùng', levelIdx:3, badge:'🦸', style:'border:3px solid var(--coral); box-shadow:0 0 0 4px rgba(255,107,94,0.3);' },
+    { id:'gold', name:'Viền vàng vô địch', levelIdx:4, badge:'🏅', style:'border:4px solid #FFD700; box-shadow:0 0 0 4px rgba(255,215,0,0.4);' },
+    { id:'diamond', name:'Viền kim cương', levelIdx:4, badge:'💎', style:'border:4px solid #B4E9F5; box-shadow:0 0 12px rgba(180,233,245,0.85);' },
+  ];
+  function frameById(id){ return FRAMES.find(f=>f.id===id) || FRAMES[0]; }
+
+  const KID_COLORS = ['#FFC93C','#FF6B5E','#3DA9DC','#2FBF89','#9B7EDE','#F5A3C7','#FF9F45','#6BCBEF','#B4E197','#FF8FA3','#C4A7FF','#FFD97D'];
+  const TASK_EMOJIS = [
+    '🍽️','🧹','👕','🧺','🧽','🍚','🛏️','🗑️','🪟','🌱','🐟','🧸','📚','🧴','🚿','✨',
+    '🧼','🪣','🧻','🧯','🔌','🚪','🪑','🛋️','🖼️','🧦','👟','🎒','📦',
+    '🍳','🥗','🥘','🍞','🧊','☕','🥣','🍲','🧁',
+    '🌻','🪴','🐕','🐈','🐦','🚗','🚲',
+    '💡','📱','💻','🧮','✏️','🖊️','🧵','🪡','🎁',
+    '🧘','🛌','🪥','⏰','📅','♻️'
+  ];
+  const DEFAULT_TASKS = [
+    {name:'Rửa bát', emoji:'🍽️', points:10},
+    {name:'Quét nhà', emoji:'🧹', points:8},
+    {name:'Thu quần áo', emoji:'👕', points:5},
+    {name:'Giặt quần áo', emoji:'🧺', points:10},
+    {name:'Lau nhà', emoji:'🧽', points:12},
+    {name:'Nấu cơm', emoji:'🍚', points:15},
+  ];
+  const LEVELS = [
+    {min:0,   name:'Chồi non',    icon:'🌱', art:'🌱', bg:'linear-gradient(135deg,#DFF3C4,#B4E197)'},
+    {min:50,  name:'Cây xanh',    icon:'🌿', art:'🪴', bg:'linear-gradient(135deg,#B4E197,#2FBF89)'},
+    {min:150, name:'Cây to',      icon:'🌳', art:'🌳', bg:'linear-gradient(135deg,#6BCBEF,#3DA9DC)'},
+    {min:300, name:'Siêu sao',    icon:'⭐', art:'🌟', bg:'linear-gradient(135deg,#FFE9A8,#FFC93C)'},
+    {min:500, name:'Nhà vô địch', icon:'🏆', art:'👑', bg:'linear-gradient(135deg,#FF9F45,#FF6B5E)'},
+  ];
+  function levelIdxFor(pts){ let idx = 0; LEVELS.forEach((l,i)=>{ if(pts >= l.min) idx = i; }); return idx; }
+  function bonusForKid(kidId){ return levelIdxFor(totalPoints(kidId)); } // mỗi cấp lên = +1 điểm thưởng cho mỗi việc
+  const PENALTY_REASONS = ['Làm chưa xong','Làm ẩu, chưa sạch','Bỏ dở giữa chừng','Không nghe lời','Trốn việc được giao'];
+  const CONFIG_KEY = 'nmcd_firebase_config';
+  const FIRED_KEY = 'nmcd_fired_alarms';
+  const TRUSTED_KEY = 'nmcd_bome_trusted';
+
+  let kids = [], tasks = [], completions = [], alarms = [], penalties = [];
+  let pendingTask = null;
+  let db = null;
+  let ringingAlarmId = null;
+  let audioCtx = null, ringInterval = null;
+  let unsubs = [];
+
+  const $ = (id) => document.getElementById(id);
+
+  function todayStr(){
+    const d = new Date();
+    const days = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
+    return days[d.getDay()] + ', ' + d.getDate() + '/' + (d.getMonth()+1);
+  }
+  function todayKey(){ const d = new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  function showToast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=> t.classList.remove('show'), 1800); }
+
+  /* ============ SETUP / CONNECTION ============ */
+  function parseConfigFromText(text){
+    try{
+      const kwIdx = text.indexOf('firebaseConfig');
+      const start = text.indexOf('{', kwIdx >= 0 ? kwIdx : 0);
+      if(start < 0) return null;
+      let depth = 0, end = -1;
+      for(let i = start; i < text.length; i++){
+        if(text[i] === '{') depth++;
+        else if(text[i] === '}'){ depth--; if(depth === 0){ end = i; break; } }
+      }
+      if(end < 0) return null;
+      const objStr = text.slice(start, end + 1);
+      const fn = new Function('return ' + objStr);
+      return fn();
+    }catch(e){ return null; }
+  }
+  function getSavedConfig(){
+    try{ const raw = localStorage.getItem(CONFIG_KEY); return raw ? JSON.parse(raw) : null; }catch(e){ return null; }
+  }
+  function saveConfig(cfg){ localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg)); }
+
+  $('saveConfigBtn').addEventListener('click', ()=>{
+    const text = $('configTextarea').value.trim();
+    let cfg = null;
+    if(text){
+      cfg = parseConfigFromText(text);
+    } else {
+      cfg = {
+        apiKey: $('apiKeyInput').value.trim(),
+        authDomain: $('authDomainInput').value.trim(),
+        projectId: $('projectIdInput').value.trim(),
+        appId: $('appIdInput').value.trim(),
+      };
+      if(cfg.projectId && !cfg.authDomain) cfg.authDomain = cfg.projectId + '.firebaseapp.com';
+    }
+    if(!cfg || !cfg.apiKey || !cfg.projectId){
+      $('setupError').textContent = 'Không đọc được cấu hình. Kiểm tra lại và dán đầy đủ nhé.';
+      return;
+    }
+    saveConfig(cfg);
+    $('setupError').textContent = '';
+    connectFirebase(cfg);
+  });
+
+  $('openSettingsBtn').addEventListener('click', ()=>{
+    const cfg = getSavedConfig();
+    $('currentProjectId').textContent = cfg ? cfg.projectId : '-';
+    $('settingsOverlay').classList.add('show');
+  });
+  $('closeSettingsLink').addEventListener('click', ()=> $('settingsOverlay').classList.remove('show'));
+  $('reconfigureBtn').addEventListener('click', ()=>{
+    $('settingsOverlay').classList.remove('show');
+    $('mainWrap').style.display = 'none';
+    $('setupScreen').classList.add('show');
+  });
+  $('logoutBtn').addEventListener('click', ()=>{
+    localStorage.removeItem(TRUSTED_KEY);
+    $('settingsOverlay').classList.remove('show');
+    $('mainWrap').style.display = 'none';
+    location.reload();
+  });
+  $('changePinBtn').addEventListener('click', ()=>{
+    $('settingsOverlay').classList.remove('show');
+    $('mainWrap').style.display = 'none';
+    showPinScreen('change');
+  });
+
+  /* ============ PIN GATE ============ */
+  function hash(str){
+    // simple non-cryptographic hash, good enough as a family PIN gate (not a security boundary)
+    let h = 0; for(let i=0;i<str.length;i++){ h = (h*31 + str.charCodeAt(i)) >>> 0; }
+    return h.toString(36);
+  }
+  function showPinScreen(mode){
+    $('pinInput1').value=''; $('pinInput2').value=''; $('pinError').textContent='';
+    if(mode==='setup'){
+      $('pinTitle').textContent = 'Đặt mã PIN cho Bố Mẹ';
+      $('pinSub').textContent = 'Mã PIN này giúp chỉ Bố Mẹ mới chỉnh sửa được. Dùng chung cho cả bố và mẹ.';
+      $('pinLabel1').textContent = 'Nhập mã PIN (4-6 số)';
+      $('pinConfirmWrap').style.display='block';
+      $('pinSubmitBtn').textContent = 'Đặt mã PIN';
+    } else if(mode==='change'){
+      $('pinTitle').textContent = 'Đổi mã PIN mới';
+      $('pinSub').textContent = 'Đặt mã PIN mới cho Bố Mẹ.';
+      $('pinLabel1').textContent = 'Nhập mã PIN mới (4-6 số)';
+      $('pinConfirmWrap').style.display='block';
+      $('pinSubmitBtn').textContent = 'Lưu mã PIN mới';
+    } else {
+      $('pinTitle').textContent = 'Nhập mã PIN';
+      $('pinSub').textContent = 'Nhập mã PIN của Bố Mẹ để mở khoá app này.';
+      $('pinLabel1').textContent = 'Mã PIN';
+      $('pinConfirmWrap').style.display='none';
+      $('pinSubmitBtn').textContent = 'Mở khoá';
+    }
+    $('pinScreen').dataset.mode = mode;
+    $('pinScreen').classList.add('show');
+  }
+  $('pinSubmitBtn').addEventListener('click', async ()=>{
+    const mode = $('pinScreen').dataset.mode;
+    const p1 = $('pinInput1').value.trim();
+    const p2 = $('pinInput2').value.trim();
+    if(mode==='setup' || mode==='change'){
+      if(p1.length<4){ $('pinError').textContent = 'Mã PIN cần ít nhất 4 số.'; return; }
+      if(p1!==p2){ $('pinError').textContent = 'Hai mã PIN chưa khớp nhau.'; return; }
+      await db.collection('settings').doc('app').set({pin: hash(p1)});
+      localStorage.setItem(TRUSTED_KEY, '1');
+      $('pinScreen').classList.remove('show');
+      enterMainApp();
+    } else {
+      const snap = await db.collection('settings').doc('app').get();
+      const saved = snap.exists ? snap.data().pin : null;
+      if(saved && hash(p1) === saved){
+        localStorage.setItem(TRUSTED_KEY, '1');
+        $('pinScreen').classList.remove('show');
+        enterMainApp();
+      } else {
+        $('pinError').textContent = 'Mã PIN không đúng, thử lại nhé.';
+      }
+    }
+  });
+
+  async function connectFirebase(cfg){
+    try{
+      if(typeof firebase === 'undefined'){
+        const ok = await loadFirebaseLibs();
+        if(!ok){ $('setupError').textContent = 'Không tải được thư viện kết nối. Kiểm tra mạng rồi thử lại.'; return; }
+      }
+      if(!firebase.apps || firebase.apps.length === 0){
+        firebase.initializeApp(cfg);
+      }
+      db = firebase.firestore();
+      $('setupScreen').classList.remove('show');
+      // check pin state
+      const snap = await db.collection('settings').doc('app').get();
+      if(!snap.exists){
+        showPinScreen('setup');
+      } else if(localStorage.getItem(TRUSTED_KEY) === '1'){
+        enterMainApp();
+      } else {
+        showPinScreen('entry');
+      }
+    }catch(e){
+      $('setupError').textContent = 'Kết nối lỗi: ' + e.message;
+      $('setupScreen').classList.add('show');
+    }
+  }
+
+  function enterMainApp(){
+    $('mainWrap').style.display = 'block';
+    attachListeners();
+  }
+
+  function setConnStatus(ok){
+    $('connDot').className = 'dot ' + (ok ? 'on' : 'off');
+    $('connText').textContent = ok ? 'Đã đồng bộ' : 'Mất kết nối...';
+  }
+
+  async function maybeSeedDefaults(){
+    const seedRef = db.collection('meta').doc('seeded');
+    try{
+      const snap = await seedRef.get();
+      if(!snap.exists){
+        await seedRef.set({at: Date.now()});
+        const batch = db.batch();
+        DEFAULT_TASKS.forEach(t=>{
+          const ref = db.collection('tasks').doc();
+          batch.set(ref, {name:t.name, emoji:t.emoji, points:t.points, createdAt: Date.now()});
+        });
+        await batch.commit();
+      }
+    }catch(e){}
+  }
+
+  function attachListeners(){
+    unsubs.forEach(u=>{ try{u();}catch(e){} });
+    unsubs = [];
+
+    unsubs.push(db.collection('kids').onSnapshot(snap=>{
+      kids = snap.docs.map(d=>({id:d.id, ...d.data()}));
+      setConnStatus(true);
+      render();
+    }, err=> setConnStatus(false)));
+
+    unsubs.push(db.collection('tasks').onSnapshot(snap=>{
+      tasks = snap.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=> (a.createdAt||0)-(b.createdAt||0));
+      if(snap.empty) maybeSeedDefaults();
+      render();
+    }));
+
+    unsubs.push(db.collection('completions').onSnapshot(snap=>{
+      completions = snap.docs.map(d=>({id:d.id, ...d.data()}));
+      render();
+    }));
+
+    unsubs.push(db.collection('alarms').onSnapshot(snap=>{
+      alarms = snap.docs.map(d=>({id:d.id, ...d.data()}));
+      renderAlarms();
+    }));
+
+    unsubs.push(db.collection('penalties').onSnapshot(snap=>{
+      penalties = snap.docs.map(d=>({id:d.id, ...d.data()}));
+      render();
+    }));
+  }
+
+  /* ============ DATA HELPERS ============ */
+  function earnedPoints(kidId){
+    return completions.filter(c => c.status==='approved' && (c.kidIds||[]).includes(kidId)).reduce((s,c)=> s + c.points, 0);
+  }
+  function penaltyPoints(kidId){
+    return penalties.filter(p => p.kidId === kidId).reduce((s,p)=> s + p.points, 0);
+  }
+  function totalPoints(kidId){
+    return Math.max(0, earnedPoints(kidId) - penaltyPoints(kidId));
+  }
+  function levelFor(pts){ let lvl = LEVELS[0]; for(const l of LEVELS){ if(pts >= l.min) lvl = l; } return lvl; }
+  function nextLevelFor(pts){ for(const l of LEVELS){ if(pts < l.min) return l; } return null; }
+  function pendingCount(){ return completions.filter(c=>c.status==='pending').length; }
+
+  /* ============ NAV ============ */
+  document.querySelectorAll('.nav button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+      $('view-'+btn.dataset.view).classList.add('active');
+    });
+  });
+
+  /* ============ RENDER ============ */
+  function render(){
+    $('todayPill').textContent = '📅 ' + todayStr();
+    renderTaskGrid();
+    renderHistory();
+    renderConfirm();
+    renderBoard();
+    renderMembers();
+    const pc = pendingCount();
+    const badge = $('pendingBadge');
+    if(pc>0){ badge.style.display='flex'; badge.textContent = pc>9?'9+':pc; } else { badge.style.display='none'; }
+  }
+
+  function renderTaskGrid(){
+    const grid = $('taskGrid');
+    grid.innerHTML = '';
+    tasks.forEach(t=>{
+      const card = document.createElement('div');
+      card.className = 'task-card';
+      card.innerHTML = `<button class="edit-pin" data-editbtn="${t.id}">✏️</button><span class="em">${t.emoji}</span><span class="nm">${escapeHtml(t.name)}</span><span class="pt">+${t.points} điểm</span>`;
+      card.addEventListener('click', (e)=>{ if(e.target.closest('[data-editbtn]')) return; openConfirm(t); });
+      grid.appendChild(card);
+    });
+    grid.querySelectorAll('[data-editbtn]').forEach(b=> b.addEventListener('click', (e)=>{ e.stopPropagation(); openTaskModal(b.dataset.editbtn); }));
+    const addCard = document.createElement('div');
+    addCard.className = 'task-card add-new';
+    addCard.innerHTML = `<span class="em">➕</span><span class="nm">Thêm việc mới</span>`;
+    addCard.addEventListener('click', ()=> openTaskModal(null));
+    grid.appendChild(addCard);
+  }
+
+  function renderHistory(){
+    const list = $('historyList');
+    const tk = todayKey();
+    const doneItems = completions.filter(c => c.dateKey === tk && c.status!=='rejected').map(c=>({...c, _type:'task'}));
+    const penItems = penalties.filter(p => p.dateKey === tk).map(p=>({...p, _type:'penalty'}));
+    const items = doneItems.concat(penItems).sort((a,b)=> b.ts-a.ts);
+    if(items.length===0){ list.innerHTML = `<div class="empty"><span class="em">🌤️</span>Chưa có việc nào được ghi hôm nay.</div>`; return; }
+    list.innerHTML = '';
+    items.forEach(h=>{
+      const row = document.createElement('div');
+      const time = new Date(h.ts);
+      const hh = String(time.getHours()).padStart(2,'0');
+      const mm = String(time.getMinutes()).padStart(2,'0');
+      if(h._type === 'penalty'){
+        const k = kids.find(x=>x.id===h.kidId);
+        row.className = 'hist-item penalty';
+        row.innerHTML = `<span class="em">⚠️</span><span class="who">${escapeHtml(k?k.name:'(đã xoá)')}</span> bị trừ điểm: ${escapeHtml(h.reason||'')} <span class="amt" style="font-weight:800;">-${h.points}</span><span class="penalty-tag">trừ điểm</span><span class="when">${hh}:${mm}</span>`;
+      } else {
+        const names = (h.kidIds||[]).map(id => { const k = kids.find(x=>x.id===id); return k? k.name : '(đã xoá)'; }).join(', ');
+        row.className = 'hist-item' + (h.status==='pending' ? ' pending' : '');
+        const bonusTxt = h.bonusApplied>0 ? ` <span style="color:var(--sun); font-weight:700; font-size:11px;">(gồm +${h.bonusApplied} thưởng cấp)</span>` : '';
+        row.innerHTML = `<span class="em">${h.emoji}</span><span class="who">${escapeHtml(names)}</span> đã ${escapeHtml((h.taskName||'').toLowerCase())} <span style="color:var(--mint);font-weight:800;">+${h.points}</span>${bonusTxt}${h.status==='pending'?'<span class="pending-tag">chờ xác nhận</span>':''}<span class="when">${hh}:${mm}</span>`;
+      }
+      list.appendChild(row);
+    });
+  }
+
+  function renderConfirm(){
+    const list = $('confirmList');
+    const items = completions.filter(c=>c.status==='pending').slice().sort((a,b)=> a.ts-b.ts);
+    if(items.length===0){ list.innerHTML = `<div class="empty"><span class="em">✅</span>Không có việc nào đang chờ xác nhận.</div>`; return; }
+    list.innerHTML = '';
+    items.forEach(c=>{
+      const names = (c.kidIds||[]).map(id => { const k = kids.find(x=>x.id===id); return k? k.name : '(đã xoá)'; }).join(', ');
+      const card = document.createElement('div');
+      card.className = 'confirm-card';
+      card.innerHTML = `
+        <div class="row1">
+          <span class="em">${c.emoji}</span>
+          <div class="txt"><div class="who">${escapeHtml(names)}</div><div class="what">${escapeHtml(c.taskName)} · <span class="pt">+${c.points}đ</span></div></div>
+        </div>
+        <div class="confirm-actions">
+          <button class="btn-ok" data-approve="${c.id}">Xác nhận ✅</button>
+          <button class="btn-no" data-reject="${c.id}">Từ chối</button>
+        </div>`;
+      list.appendChild(card);
+    });
+    list.querySelectorAll('[data-approve]').forEach(b=> b.addEventListener('click', async ()=>{
+      const c = completions.find(x=>x.id===b.dataset.approve);
+      const kidId = c && (c.kidIds||[])[0];
+      const base = (c && (c.basePoints!=null ? c.basePoints : c.points)) || 0;
+      const bonus = kidId ? bonusForKid(kidId) : 0;
+      await db.collection('completions').doc(b.dataset.approve).update({status:'approved', points: base + bonus, basePoints: base, bonusApplied: bonus});
+      showToast(bonus>0 ? `Đã xác nhận! 🎉 (+${bonus} điểm thưởng cấp)` : 'Đã xác nhận! 🎉');
+    }));
+    list.querySelectorAll('[data-reject]').forEach(b=> b.addEventListener('click', async ()=>{
+      await db.collection('completions').doc(b.dataset.reject).update({status:'rejected'});
+    }));
+  }
+
+  function renderBoard(){
+    const list = $('boardList');
+    if(kids.length===0){ list.innerHTML = `<div class="empty"><span class="em">🏆</span>Thêm thành viên để bắt đầu tính điểm nhé!</div>`; return; }
+    const sorted = kids.slice().sort((a,b)=> totalPoints(b.id) - totalPoints(a.id));
+    list.innerHTML = '';
+    sorted.forEach(k=>{
+      const pts = totalPoints(k.id);
+      const lvl = levelFor(pts);
+      const next = nextLevelFor(pts);
+      const pct = next ? Math.round(((pts - lvl.min) / (next.min - lvl.min)) * 100) : 100;
+      const frame = frameById(k.frame);
+      const card = document.createElement('div');
+      card.className = 'lb-card';
+      card.innerHTML = `
+        <div class="lvl-banner" style="background:${lvl.bg};">
+          <span class="art">${lvl.art}</span>
+          <span class="txt">${lvl.name} · thưởng +${levelIdxFor(pts)} điểm mỗi việc</span>
+        </div>
+        <div class="lb-top">
+          <div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div>
+          <div class="info"><div class="nm">${escapeHtml(k.name)}</div><div class="lvl">${lvl.icon} ${lvl.name}${next ? ' · còn ' + (next.min-pts) + ' điểm lên '+next.name : ' · Cấp cao nhất!'} · <span class="lvl-link" data-roadmap="${k.id}">xem lộ trình</span></div></div>
+          <div class="pts-big">${pts}đ</div>
+        </div>
+        <div class="jar"><div class="jar-fill" style="width:${pct}%; background:${k.color};"></div></div>
+        <div class="roadmap" id="roadmap-${k.id}">${buildRoadmapHtml(pts)}</div>
+        <div class="lb-actions">
+          <button class="small-btn" data-reset="${k.id}">Đặt lại điểm bé này</button>
+          <button class="small-btn danger" data-penalty="${k.id}">⚠️ Trừ điểm</button>
+        </div>`;
+      list.appendChild(card);
+    });
+    list.querySelectorAll('[data-roadmap]').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        $('roadmap-'+el.dataset.roadmap).classList.toggle('show');
+        el.textContent = $('roadmap-'+el.dataset.roadmap).classList.contains('show') ? 'ẩn lộ trình' : 'xem lộ trình';
+      });
+    });
+    list.querySelectorAll('[data-reset]').forEach(b=>{
+      b.addEventListener('click', async ()=>{
+        const id = b.dataset.reset;
+        if(confirm('Đặt lại điểm cho bé này về 0?')){
+          const batch = db.batch();
+          completions.filter(c=> c.status==='approved' && (c.kidIds||[]).includes(id)).forEach(c=>{
+            batch.update(db.collection('completions').doc(c.id), {status:'rejected'});
+          });
+          penalties.filter(p=> p.kidId===id).forEach(p=>{
+            batch.delete(db.collection('penalties').doc(p.id));
+          });
+          await batch.commit();
+        }
+      });
+    });
+    list.querySelectorAll('[data-penalty]').forEach(b=>{
+      b.addEventListener('click', ()=> openPenaltyModal(b.dataset.penalty));
+    });
+  }
+
+  function buildRoadmapHtml(pts){
+    const lvl = levelFor(pts);
+    return LEVELS.map(l=>{
+      const isDone = l.min <= lvl.min && l !== lvl;
+      const cls = 'roadmap-row' + (isDone ? ' done' : '') + (l===lvl ? ' current' : '');
+      const rightTxt = l===lvl ? 'Cấp hiện tại' : (l.min > pts ? `Cần ${l.min}đ (còn ${l.min-pts}đ)` : `Đạt lúc ${l.min}đ`);
+      return `<div class="${cls}"><span class="rm-ic">${l.art}</span><span class="rm-name">${l.name}</span><span class="rm-pts">${rightTxt}</span></div>`;
+    }).join('');
+  }
+  $('resetAllBtn').addEventListener('click', async ()=>{
+    if(confirm('Đặt lại điểm của TẤT CẢ thành viên về 0?')){
+      const batch = db.batch();
+      completions.filter(c=>c.status==='approved').forEach(c=> batch.update(db.collection('completions').doc(c.id), {status:'rejected'}));
+      await batch.commit();
+    }
+  });
+
+  function renderMembers(){
+    const list = $('memberList');
+    if(kids.length===0){ list.innerHTML = `<div class="empty"><span class="em">👶</span>Chưa có thành viên nào. Nhấn "+ Thêm bé" để bắt đầu!</div>`; return; }
+    list.innerHTML = '';
+    kids.forEach(k=>{
+      const frame = frameById(k.frame);
+      const row = document.createElement('div');
+      row.className = 'member-row';
+      row.innerHTML = `<div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div><div class="nm">${escapeHtml(k.name)}</div><span class="pts">${totalPoints(k.id)}đ</span><button class="icon-btn" data-penalty="${k.id}" title="Trừ điểm" style="background:rgba(255,107,94,0.15); color:var(--coral);">⚠️</button><button class="icon-btn" data-edit="${k.id}">✏️</button>`;
+      list.appendChild(row);
+    });
+    list.querySelectorAll('[data-edit]').forEach(b=> b.addEventListener('click', ()=> openKidModal(b.dataset.edit)));
+    list.querySelectorAll('[data-penalty]').forEach(b=> b.addEventListener('click', ()=> openPenaltyModal(b.dataset.penalty)));
+  }
+
+  function renderAlarms(){
+    const list = $('alarmList');
+    if(alarms.length===0){ list.innerHTML = `<div class="empty"><span class="em">⏰</span>Chưa có báo thức nào.</div>`; return; }
+    list.innerHTML = '';
+    alarms.slice().sort((a,b)=> (a.time||'').localeCompare(b.time||'')).forEach(a=>{
+      const row = document.createElement('div');
+      row.className = 'alarm-row';
+      row.innerHTML = `
+        <div><div class="time">${a.time}</div><div class="lbl">${escapeHtml(a.label || 'Nhắc việc nhà')}</div></div>
+        <label class="switch"><input type="checkbox" data-toggle="${a.id}" ${a.enabled?'checked':''}><span class="slider"></span></label>
+        <button class="icon-btn" data-del="${a.id}">🗑️</button>`;
+      list.appendChild(row);
+    });
+    list.querySelectorAll('[data-toggle]').forEach(chk=> chk.addEventListener('change', async ()=>{
+      await db.collection('alarms').doc(chk.dataset.toggle).update({enabled: chk.checked});
+    }));
+    list.querySelectorAll('[data-del]').forEach(b=> b.addEventListener('click', async ()=>{
+      await db.collection('alarms').doc(b.dataset.del).delete();
+    }));
+  }
+
+  /* ============ CONFIRM WHO DID TASK (parent logs = auto approved) ============ */
+  function openConfirm(task){
+    pendingTask = task;
+    $('confirmTitle').textContent = `${task.emoji} Ai đã "${task.name.toLowerCase()}"?`;
+    const wrap = $('confirmKids');
+    wrap.innerHTML = '';
+    if(kids.length===0){ wrap.innerHTML = `<div class="empty">Chưa có thành viên nào. Thêm bé ở tab Thành viên nhé!</div>`; }
+    kids.forEach(k=>{
+      const kb = document.createElement('div');
+      kb.className = 'kb';
+      kb.innerHTML = `<span>${k.avatar}</span><span>${escapeHtml(k.name)}</span>`;
+      kb.addEventListener('click', ()=> kb.classList.toggle('sel'));
+      kb._kidId = k.id;
+      wrap.appendChild(kb);
+    });
+    $('confirmOverlay').classList.add('show');
+    $('confirmDoneBtn').onclick = async ()=>{
+      const ids = Array.from(wrap.querySelectorAll('.kb.sel')).map(el=>el._kidId);
+      if(ids.length===0){ showToast('Hãy chọn ít nhất 1 bé nhé!'); return; }
+      const batch = db.batch();
+      let bonusMsg = '';
+      ids.forEach(kidId=>{
+        const bonus = bonusForKid(kidId);
+        if(bonus>0) bonusMsg = ` (có ${bonus} điểm thưởng cấp)`;
+        const ref = db.collection('completions').doc();
+        batch.set(ref, {
+          kidIds: [kidId], taskId: pendingTask.id||null, taskName: pendingTask.name,
+          emoji: pendingTask.emoji, basePoints: pendingTask.points, points: pendingTask.points + bonus,
+          bonusApplied: bonus, ts: Date.now(), dateKey: todayKey(), status:'approved'
+        });
+      });
+      await batch.commit();
+      $('confirmOverlay').classList.remove('show');
+      showToast('Đã ghi nhận & cộng điểm! 🎉' + bonusMsg);
+    };
+  }
+  $('confirmOverlay').addEventListener('click', (e)=>{ if(e.target.id==='confirmOverlay') $('confirmOverlay').classList.remove('show'); });
+
+  /* ============ TASK MODAL ============ */
+  function openTaskModal(taskId){
+    const isEdit = !!taskId;
+    $('taskModalTitle').textContent = isEdit ? 'Sửa việc' : 'Thêm việc mới';
+    const t = isEdit ? tasks.find(x=>x.id===taskId) : {name:'', emoji: TASK_EMOJIS[0], points:10};
+    $('taskNameInput').value = t.name;
+    $('taskPointsInput').value = t.points;
+    const pick = $('taskEmojiPick'); pick.innerHTML = ''; let selEmoji = t.emoji;
+    TASK_EMOJIS.forEach(em=>{
+      const s = document.createElement('span'); s.textContent = em;
+      if(em===selEmoji) s.classList.add('sel');
+      s.addEventListener('click', ()=>{ pick.querySelectorAll('span').forEach(x=>x.classList.remove('sel')); s.classList.add('sel'); selEmoji = em; });
+      pick.appendChild(s);
+    });
+    $('deleteTaskLink').style.display = isEdit ? 'block' : 'none';
+    $('deleteTaskLink').onclick = async ()=>{
+      if(confirm('Xoá việc này?')){ await db.collection('tasks').doc(taskId).delete(); $('taskOverlay').classList.remove('show'); }
+    };
+    $('saveTaskBtn').onclick = async ()=>{
+      const name = $('taskNameInput').value.trim();
+      const points = parseInt($('taskPointsInput').value) || 1;
+      if(!name){ showToast('Nhập tên việc nhé!'); return; }
+      if(isEdit){ await db.collection('tasks').doc(taskId).update({name, emoji: selEmoji, points}); }
+      else { await db.collection('tasks').add({name, emoji: selEmoji, points, createdAt: Date.now()}); }
+      $('taskOverlay').classList.remove('show');
+    };
+    $('taskOverlay').classList.add('show');
+  }
+  $('taskOverlay').addEventListener('click', (e)=>{ if(e.target.id==='taskOverlay') $('taskOverlay').classList.remove('show'); });
+
+  /* ============ KID MODAL ============ */
+  function openKidModal(kidId){
+    const isEdit = !!kidId;
+    $('kidModalTitle').textContent = isEdit ? 'Sửa thành viên' : 'Thêm thành viên';
+    const k = isEdit ? kids.find(x=>x.id===kidId) : {name:'', avatar: KID_EMOJIS[0], color: KID_COLORS[0], frame:'none'};
+    $('kidNameInput').value = k.name;
+    const kidLvlIdx = isEdit ? levelIdxFor(totalPoints(kidId)) : 0;
+
+    const avPick = $('kidAvatarPick'); avPick.innerHTML = ''; let selAv = k.avatar;
+    AVATAR_TIERS.forEach(tier=>{
+      const locked = tier.levelIdx > kidLvlIdx;
+      const label = document.createElement('div');
+      label.className = 'tier-label';
+      label.innerHTML = `${LEVELS[tier.levelIdx].icon} Cấp ${tier.levelIdx+1} · ${LEVELS[tier.levelIdx].name}${locked ? ' <span class="lockline">(bé chưa mở khoá)</span>' : ''}`;
+      avPick.appendChild(label);
+      const row = document.createElement('div');
+      row.className = 'emoji-pick';
+      tier.items.forEach(em=>{
+        const s = document.createElement('span'); s.textContent = em;
+        if(locked) s.classList.add('locked');
+        if(em===selAv) s.classList.add('sel');
+        if(locked){ const dot = document.createElement('span'); dot.className='lock-dot'; dot.textContent='🔒'; s.appendChild(dot); }
+        s.addEventListener('click', ()=>{ avPick.querySelectorAll('span[data-em]').forEach(x=>x.classList.remove('sel')); s.classList.add('sel'); selAv = em; });
+        s.dataset.em = em;
+        row.appendChild(s);
+      });
+      avPick.appendChild(row);
+    });
+
+    const framePick = $('kidFramePick'); framePick.innerHTML = ''; let selFrame = k.frame || 'none';
+    FRAMES.forEach(fr=>{
+      const locked = fr.levelIdx > kidLvlIdx;
+      const chip = document.createElement('div');
+      chip.className = 'fchip' + (locked ? ' locked' : '') + (fr.id===selFrame ? ' sel' : '');
+      chip.innerHTML = `<span>${fr.badge || '⚪'}</span><span>${fr.name}</span>${locked ? '<span>🔒</span>' : ''}`;
+      chip.addEventListener('click', ()=>{ framePick.querySelectorAll('.fchip').forEach(x=>x.classList.remove('sel')); chip.classList.add('sel'); selFrame = fr.id; });
+      framePick.appendChild(chip);
+    });
+
+    const colPick = $('kidColorPick'); colPick.innerHTML = ''; let selColor = k.color;
+    KID_COLORS.forEach(c=>{
+      const s = document.createElement('span'); s.style.background = c;
+      if(c===selColor) s.classList.add('sel');
+      s.addEventListener('click', ()=>{ colPick.querySelectorAll('span').forEach(x=>x.classList.remove('sel')); s.classList.add('sel'); selColor = c; });
+      colPick.appendChild(s);
+    });
+    $('deleteKidLink').style.display = isEdit ? 'block' : 'none';
+    $('deleteKidLink').onclick = async ()=>{
+      if(confirm('Xoá thành viên này?')){ await db.collection('kids').doc(kidId).delete(); $('kidOverlay').classList.remove('show'); }
+    };
+    $('saveKidBtn').onclick = async ()=>{
+      const name = $('kidNameInput').value.trim();
+      if(!name){ showToast('Nhập tên bé nhé!'); return; }
+      if(isEdit){ await db.collection('kids').doc(kidId).update({name, avatar: selAv, color: selColor, frame: selFrame}); }
+      else { await db.collection('kids').add({name, avatar: selAv, color: selColor, frame: selFrame, createdAt: Date.now()}); }
+      $('kidOverlay').classList.remove('show');
+    };
+    $('kidOverlay').classList.add('show');
+  }
+  $('addKidBtn').addEventListener('click', ()=> openKidModal(null));
+  $('kidOverlay').addEventListener('click', (e)=>{ if(e.target.id==='kidOverlay') $('kidOverlay').classList.remove('show'); });
+
+  /* ============ PENALTY MODAL (trừ điểm) ============ */
+  function openPenaltyModal(kidId){
+    const k = kids.find(x=>x.id===kidId);
+    $('penaltyTitle').textContent = k ? `Trừ điểm của ${k.name}` : 'Trừ điểm';
+    $('penaltyReasonInput').value = '';
+    $('penaltyPointsInput').value = 5;
+    const pick = $('penaltyReasonPick'); pick.innerHTML = ''; let selReason = '';
+    PENALTY_REASONS.forEach(r=>{
+      const s = document.createElement('span'); s.textContent = r;
+      s.addEventListener('click', ()=>{
+        pick.querySelectorAll('span').forEach(x=>x.classList.remove('sel'));
+        if(selReason===r){ selReason=''; } else { s.classList.add('sel'); selReason = r; }
+        $('penaltyReasonInput').value = selReason;
+      });
+      pick.appendChild(s);
+    });
+    $('penaltyReasonInput').addEventListener('input', ()=>{
+      pick.querySelectorAll('span').forEach(x=>x.classList.remove('sel'));
+    });
+    $('savePenaltyBtn').onclick = async ()=>{
+      const reason = $('penaltyReasonInput').value.trim() || 'Chưa hoàn thành tốt';
+      const points = parseInt($('penaltyPointsInput').value) || 1;
+      await db.collection('penalties').add({kidId, reason, points, ts: Date.now(), dateKey: todayKey()});
+      $('penaltyOverlay').classList.remove('show');
+      showToast('Đã trừ điểm.');
+    };
+    $('penaltyOverlay').classList.add('show');
+  }
+  $('penaltyOverlay').addEventListener('click', (e)=>{ if(e.target.id==='penaltyOverlay') $('penaltyOverlay').classList.remove('show'); });
+
+  /* ============ ALARM MODAL ============ */
+  $('addAlarmBtn').addEventListener('click', ()=>{
+    $('alarmTimeInput').value = ''; $('alarmLabelInput').value = '';
+    $('alarmOverlay').classList.add('show');
+  });
+  $('alarmOverlay').addEventListener('click', (e)=>{ if(e.target.id==='alarmOverlay') $('alarmOverlay').classList.remove('show'); });
+  $('saveAlarmBtn').addEventListener('click', async ()=>{
+    const time = $('alarmTimeInput').value;
+    const label = $('alarmLabelInput').value.trim();
+    if(!time){ showToast('Chọn giờ báo thức nhé!'); return; }
+    await db.collection('alarms').add({time, label, enabled:true});
+    $('alarmOverlay').classList.remove('show');
+  });
+
+  /* ============ ALARM ENGINE (per-device firing) ============ */
+  function getFiredMap(){ try{ return JSON.parse(localStorage.getItem(FIRED_KEY) || '{}'); }catch(e){ return {}; } }
+  function setFired(alarmId, dateKey){
+    const m = getFiredMap(); m[alarmId] = dateKey;
+    localStorage.setItem(FIRED_KEY, JSON.stringify(m));
+  }
+  function ensureAudio(){
+    if(!audioCtx){ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+  }
+  function beep(){
+    if(!audioCtx) return;
+    const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+    o.type = 'sine'; o.frequency.value = 880; g.gain.value = 0.15;
+    o.connect(g); g.connect(audioCtx.destination); o.start();
+    o.frequency.setValueAtTime(880, audioCtx.currentTime);
+    o.frequency.setValueAtTime(660, audioCtx.currentTime + 0.15);
+    o.frequency.setValueAtTime(880, audioCtx.currentTime + 0.3);
+    o.stop(audioCtx.currentTime + 0.45);
+  }
+  function startRing(alarm){
+    ringingAlarmId = alarm.id;
+    $('ringLabel').textContent = alarm.label || 'Đến giờ dọn nhà rồi!';
+    $('ringScreen').classList.add('show');
+    ensureAudio(); beep();
+    ringInterval = setInterval(()=>{ beep(); if(navigator.vibrate) navigator.vibrate([400,200,400]); }, 700);
+    if(navigator.vibrate) navigator.vibrate([400,200,400]);
+  }
+  $('stopRingBtn').addEventListener('click', ()=>{
+    clearInterval(ringInterval);
+    $('ringScreen').classList.remove('show');
+    if(navigator.vibrate) navigator.vibrate(0);
+    if(ringingAlarmId) setFired(ringingAlarmId, todayKey());
+    ringingAlarmId = null;
+  });
+  setInterval(()=>{
+    if(ringingAlarmId || !db) return;
+    const now = new Date();
+    const cur = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    const tk = todayKey();
+    const fired = getFiredMap();
+    alarms.forEach(a=>{
+      if(a.enabled && a.time === cur && fired[a.id] !== tk){ startRing(a); }
+    });
+  }, 1000);
+
+  /* ============ LOAD FIREBASE LIBS (with fallback CDN) ============ */
+  function loadScript(src){
+    return new Promise((resolve, reject)=>{
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+  async function loadFirebaseLibs(){
+    const sources = [
+      ['https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js','https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js'],
+      ['https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js','https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-firestore-compat.js'],
+      ['https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.js','https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.js'],
+    ];
+    for(const pair of sources){
+      try{
+        await loadScript(pair[0]);
+        await loadScript(pair[1]);
+        if(window.firebase) return true;
+      }catch(e){ /* try next source */ }
+    }
+    return false;
+  }
+
+  /* ============ BOOT ============ */
+  async function boot(){
+    $('bootLoading').style.display = 'flex';
+    $('bootErrorBox').style.display = 'none';
+    $('bootLoadingText').style.display = 'block';
+    const ok = await loadFirebaseLibs();
+    if(!ok){
+      $('bootLoadingText').style.display = 'none';
+      $('bootErrorBox').style.display = 'block';
+      return;
+    }
+    $('bootLoading').style.display = 'none';
+    const saved = getSavedConfig();
+    if(saved){ connectFirebase(saved); }
+    else { $('setupScreen').classList.add('show'); }
+  }
+  $('bootRetryBtn').addEventListener('click', boot);
+  boot();
+})();
+</script>
+</body>
+</html>
