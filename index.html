@@ -206,6 +206,21 @@
   .mascot-emoji{ font-size:76px; animation: mascotbounce .6s ease infinite; filter: drop-shadow(0 8px 10px rgba(0,0,0,0.15)); }
   @keyframes mascotbounce{ 0%,100%{ transform: translateY(0) rotate(-6deg);} 50%{ transform: translateY(-18px) rotate(6deg);} }
   .mascot-speech{ margin-top:10px; background:#fff; border-radius:16px; padding:10px 18px; font-family:'Baloo 2'; font-weight:800; font-size:15px; color:var(--ink); box-shadow: var(--shadow); max-width:260px; text-align:center; }
+
+  .chat-box{ display:flex; flex-direction:column; gap:10px; max-height:56vh; overflow-y:auto; padding:8px 4px 12px; margin-bottom:10px; background:var(--card); border:2px solid var(--line); border-radius:18px; }
+  .chat-msg{ display:flex; gap:8px; max-width:82%; padding:0 8px; }
+  .chat-msg.me{ align-self:flex-end; flex-direction:row-reverse; }
+  .chat-msg .cav{ width:32px;height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; flex:0 0 auto; background:var(--line); }
+  .chat-msg .cbody{ background:var(--cream); border:2px solid var(--line); border-radius:16px; padding:8px 12px; min-width:0; }
+  .chat-msg.me .cbody{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .chat-msg .cname{ font-family:'Baloo 2'; font-weight:800; font-size:11px; color:var(--ink-soft); margin-bottom:2px; }
+  .chat-msg.me .cname{ color:rgba(255,255,255,0.7); text-align:right; }
+  .chat-msg .ctext{ font-size:14px; line-height:1.4; word-break:break-word; white-space:pre-wrap; }
+  .chat-msg .ctime{ font-size:10px; opacity:.6; margin-top:3px; display:block; }
+  .chat-input-row{ display:flex; gap:8px; }
+  .chat-input-row input{ flex:1; padding:12px 14px; border-radius:14px; border:2px solid var(--line); font-size:14px; font-family:'Nunito'; background:#fff; }
+  .chat-input-row button{ border:none; background:var(--ink); color:#fff; font-family:'Baloo 2'; font-weight:800; padding:0 16px; border-radius:14px; cursor:pointer; }
+  .chat-empty{ text-align:center; padding:30px 10px; color:var(--ink-soft); font-size:13px; }
 </style>
 </head>
 <body>
@@ -281,6 +296,7 @@
     <button data-view="tasks"><span class="ic">🧹</span>Việc</button>
     <button data-view="board"><span class="ic">🏆</span>Bảng điểm</button>
     <button data-view="members"><span class="ic">👦</span>Thành viên</button>
+    <button data-view="chat"><span class="ic">💬</span>Chat<span class="badge" id="chatBadge" style="display:none;">0</span></button>
   </div>
 
   <div class="view active" id="view-confirm">
@@ -310,6 +326,16 @@
       <button class="ghost-btn" id="addKidBtn">+ Thêm bé</button>
     </div>
     <div id="memberList"></div>
+  </div>
+
+  <div class="view" id="view-chat">
+    <div class="section-head"><h2>💬 Chat cả nhà</h2></div>
+    <div class="note-box">Chat chung của cả nhà theo thời gian thực. Ở đây bạn nhắn với vai trò <b>👪 Bố Mẹ</b>; các con nhắn từ app "Của Con" theo tên riêng của từng bé.</div>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="Nhắn gì đó cho cả nhà...">
+      <button id="chatSendBtn">Gửi 📨</button>
+    </div>
   </div>
 
 </div>
@@ -653,9 +679,11 @@
     measurementId: "G-3JG02T09VC"
   };
 
-  let kids = [], tasks = [], completions = [], penalties = [];
+  let kids = [], tasks = [], completions = [], penalties = [], chatMessages = [];
   let familyGoal = null;
   let pendingTask = null;
+  let lastChatCount = 0;
+  const CHAT_READ_KEY = 'nmcd_chat_lastread_parent';
   let db = null;
   let unsubs = [];
   let lastRanks = {};
@@ -947,6 +975,11 @@
       penalties = snap.docs.map(d=>({id:d.id, ...d.data()}));
       render();
     }));
+    unsubs.push(db.collection('chatMessages').orderBy('ts','asc').limitToLast(300).onSnapshot(snap=>{
+      chatMessages = snap.docs.map(d=>({id:d.id, ...d.data()}));
+      renderChat();
+      updateChatBadge();
+    }));
   }
 
   /* ============ DATA HELPERS ============ */
@@ -970,6 +1003,11 @@
       btn.classList.add('active');
       document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
       $('view-'+btn.dataset.view).classList.add('active');
+      if(btn.dataset.view === 'chat'){
+        localStorage.setItem(CHAT_READ_KEY, String(Date.now()));
+        updateChatBadge();
+        setTimeout(()=>{ const box = $('chatBox'); if(box) box.scrollTop = box.scrollHeight; }, 30);
+      }
     });
   });
 
@@ -1390,6 +1428,45 @@
     $('familyGoalOverlay').classList.add('show');
   }
   $('familyGoalOverlay').addEventListener('click', (e)=>{ if(e.target.id==='familyGoalOverlay') $('familyGoalOverlay').classList.remove('show'); });
+
+  /* ============ CHAT CHUNG CẢ NHÀ (vai trò: 👪 Bố Mẹ) ============ */
+  function renderChat(){
+    const box = $('chatBox');
+    if(!box) return;
+    if(chatMessages.length===0){
+      box.innerHTML = '<div class="chat-empty">💬 Chưa có tin nhắn nào. Nhắn gì đó cho cả nhà đi!</div>';
+      lastChatCount = 0;
+      return;
+    }
+    const wasAtBottom = box.scrollTop + box.clientHeight >= box.scrollHeight - 40;
+    box.innerHTML = chatMessages.map(m=>{
+      const mine = m.role === 'parent';
+      const t = new Date(m.ts||0);
+      const hh = String(t.getHours()).padStart(2,'0'), mm = String(t.getMinutes()).padStart(2,'0');
+      return `<div class="chat-msg${mine?' me':''}">
+        <div class="cav" style="background:${m.avatarColor||'var(--line)'};">${m.avatar||'👪'}</div>
+        <div class="cbody"><div class="cname">${escapeHtml(m.senderName||'')}</div><div class="ctext">${escapeHtml(m.text||'')}</div><span class="ctime">${hh}:${mm}</span></div>
+      </div>`;
+    }).join('');
+    if(chatMessages.length > lastChatCount || wasAtBottom){ box.scrollTop = box.scrollHeight; }
+    lastChatCount = chatMessages.length;
+  }
+  function updateChatBadge(){
+    const lastRead = parseInt(localStorage.getItem(CHAT_READ_KEY)||'0');
+    const unread = chatMessages.filter(m=> m.role!=='parent' && (m.ts||0)>lastRead).length;
+    const badge = $('chatBadge');
+    if(!badge) return;
+    if(unread>0){ badge.style.display='flex'; badge.textContent = unread>9?'9+':unread; } else { badge.style.display='none'; }
+  }
+  function sendChatMessage(){
+    const input = $('chatInput');
+    const text = input.value.trim();
+    if(!text || !db) return;
+    db.collection('chatMessages').add({ text, role:'parent', senderName:'Bố Mẹ', avatar:'👪', avatarColor:'#9B7EDE', ts: Date.now() });
+    input.value = '';
+  }
+  $('chatSendBtn').addEventListener('click', sendChatMessage);
+  $('chatInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); sendChatMessage(); } });
 
   /* ============ LOAD FIREBASE LIBS (with fallback CDN) ============ */
   function loadScript(src){
