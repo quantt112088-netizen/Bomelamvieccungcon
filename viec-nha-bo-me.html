@@ -533,8 +533,8 @@
   function celebrate(kidId, opts){
     opts = opts || {};
     const k = kids.find(x=>x.id===kidId);
-    const lvlIdx = k ? levelIdxFor(totalPoints(k.id)) : 0;
-    $('mascotEmoji').textContent = k ? petStageEmoji(k.pet, lvlIdx) : '🐻';
+    const apId = activePetId(k);
+    $('mascotEmoji').textContent = k ? petStageEmoji(apId, petMaturityIdx(k, apId)) : '🐻';
     $('mascotSpeech').textContent = opts.phrase || CHEER_PHRASES[Math.floor(Math.random()*CHEER_PHRASES.length)];
     spawnConfetti(60);
     $('celebrateOverlay').classList.add('show');
@@ -543,7 +543,8 @@
     celebrateTimer = setTimeout(()=> $('celebrateOverlay').classList.remove('show'), 2300);
   }
 
-  // Linh vật đồng hành: chọn 1 loài, hình dáng "lớn lên" theo cấp độ hiện tại của bé
+  // Linh vật đồng hành: con có thể nuôi nhiều linh vật cùng lúc (mỗi con có độ trưởng thành riêng),
+  // và chọn 1 linh vật để đặt cạnh avatar. Logic này phải khớp với app Của Con.
   const PETS = [
     { id:'dragon',  name:'Rồng nhỏ',    stages:['🥚','🐲','🐉','🐉','🐉'] },
     { id:'cat',     name:'Mèo thần',    stages:['🥚','🐱','😺','🐯','🦁'] },
@@ -554,6 +555,22 @@
   function petById(id){ return PETS.find(p=>p.id===id) || PETS[0]; }
   function petStageEmoji(petId, lvlIdx){ const p = petById(petId); return p.stages[Math.min(lvlIdx, p.stages.length-1)]; }
   const PET_STAGE_LABELS = ['Trứng','Mới nở','Lớn dần','Trưởng thành','Huyền thoại'];
+  const CARE_STAGE_THRESHOLDS = [0, 5, 15, 30, 50];
+  function activePetId(k){ return (k && (k.activePet || k.pet)) || PETS[0].id; }
+  function kidPetData(k, petId){ return (k && k.pets && k.pets[petId]) || {}; }
+  function petCareCountFor(k, petId){ return kidPetData(k, petId).careCount || 0; }
+  function careStageIdx(k, petId){
+    const n = petCareCountFor(k, petId);
+    let idx = 0;
+    CARE_STAGE_THRESHOLDS.forEach((t,i)=>{ if(n>=t) idx = i; });
+    return idx;
+  }
+  function petMaturityIdx(k, petId){
+    if(!k) return 0;
+    const lvlIdx = levelIdxFor(totalPoints(k.id));
+    const careIdx = careStageIdx(k, petId);
+    return Math.min(4, Math.max(lvlIdx, Math.min(lvlIdx+1, careIdx)));
+  }
 
   // Huy hiệu thành tích — mỗi huy hiệu có điều kiện đạt được, tính từ lịch sử của bé
   const BADGE_DEFS = [
@@ -993,8 +1010,10 @@
       const next = nextLevelFor(pts);
       const pct = next ? Math.round(((pts - lvl.min) / (next.min - lvl.min)) * 100) : 100;
       const frame = frameById(k.frame);
-      const pet = petById(k.pet);
-      const petArt = petStageEmoji(k.pet, lvlIdx);
+      const apId = activePetId(k);
+      const pet = petById(apId);
+      const petMIdx = petMaturityIdx(k, apId);
+      const petArt = petStageEmoji(apId, petMIdx);
       let arrowHtml = '';
       if(lastRanks[k.id] !== undefined && lastRanks[k.id] !== newRanks[k.id]){
         arrowHtml = newRanks[k.id] < lastRanks[k.id] ? `<span class="rank-arrow up">▲</span>` : `<span class="rank-arrow down">▼</span>`;
@@ -1008,7 +1027,7 @@
         </div>
         <div class="lb-top">
           <div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div>
-          <div class="info"><div class="nm">${escapeHtml(displayName(k))}${arrowHtml}</div><div class="lvl">${lvl.icon} ${lvl.name}${next ? ' · còn ' + (next.min-pts) + ' điểm lên '+next.name : ' · Cấp cao nhất!'} · <span class="lvl-link" data-roadmap="${k.id}">xem lộ trình</span></div><div class="pet-tag">${petArt} Linh vật: ${pet.name} (${PET_STAGE_LABELS[Math.min(lvlIdx, PET_STAGE_LABELS.length-1)]})</div>${streakHtml(k.id)}</div>
+          <div class="info"><div class="nm">${escapeHtml(displayName(k))}${arrowHtml}</div><div class="lvl">${lvl.icon} ${lvl.name}${next ? ' · còn ' + (next.min-pts) + ' điểm lên '+next.name : ' · Cấp cao nhất!'} · <span class="lvl-link" data-roadmap="${k.id}">xem lộ trình</span></div><div class="pet-tag">${petArt} Linh vật: ${pet.name} (${PET_STAGE_LABELS[Math.min(petMIdx, PET_STAGE_LABELS.length-1)]})</div>${streakHtml(k.id)}</div>
           <div class="pts-big">${pts}đ</div>
         </div>
         <div class="jar"><div class="jar-fill" style="width:${pct}%; background:${k.color};"></div></div>
@@ -1161,11 +1180,12 @@
     $('kidNicknameInput').value = k.nickname || '';
     const kidLvlIdx = isEdit ? levelIdxFor(totalPoints(kidId)) : 0;
 
-    const petPick = $('kidPetPick'); petPick.innerHTML = ''; let selPet = k.pet || PETS[0].id;
+    const petPick = $('kidPetPick'); petPick.innerHTML = ''; let selPet = isEdit ? activePetId(k) : PETS[0].id;
     PETS.forEach(p=>{
+      const mI = isEdit ? petMaturityIdx(k, p.id) : 0;
       const chip = document.createElement('div');
       chip.className = 'pchip' + (p.id===selPet ? ' sel' : '');
-      chip.innerHTML = `<span>${petStageEmoji(p.id, kidLvlIdx)}</span><span>${p.name}</span>`;
+      chip.innerHTML = `<span>${petStageEmoji(p.id, mI)}</span><span>${p.name}</span>`;
       chip.addEventListener('click', ()=>{ petPick.querySelectorAll('.pchip').forEach(x=>x.classList.remove('sel')); chip.classList.add('sel'); selPet = p.id; });
       petPick.appendChild(chip);
     });
@@ -1216,8 +1236,8 @@
       const name = $('kidNameInput').value.trim();
       const nickname = $('kidNicknameInput').value.trim();
       if(!name){ showToast('Nhập tên bé nhé!'); return; }
-      if(isEdit){ await db.collection('kids').doc(kidId).update({name, nickname, avatar: selAv, color: selColor, frame: selFrame, pet: selPet}); }
-      else { await db.collection('kids').add({name, nickname, avatar: selAv, color: selColor, frame: selFrame, pet: selPet, createdAt: Date.now()}); }
+      if(isEdit){ await db.collection('kids').doc(kidId).update({name, nickname, avatar: selAv, color: selColor, frame: selFrame, pet: selPet, activePet: selPet}); }
+      else { await db.collection('kids').add({name, nickname, avatar: selAv, color: selColor, frame: selFrame, pet: selPet, activePet: selPet, createdAt: Date.now()}); }
       $('kidOverlay').classList.remove('show');
     };
     $('kidOverlay').classList.add('show');
