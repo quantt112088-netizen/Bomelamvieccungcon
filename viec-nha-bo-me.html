@@ -1054,7 +1054,12 @@
 
   /* ============ DATA HELPERS ============ */
   function earnedPoints(kidId){
-    return completions.filter(c => c.status==='approved' && (c.kidIds||[]).includes(kidId)).reduce((s,c)=> s + c.points, 0);
+    const fromTasks = completions.filter(c => c.status==='approved' && c.source!=='english' && (c.kidIds||[]).includes(kidId)).reduce((s,c)=> s + c.points, 0);
+    const k = kids.find(x=>x.id===kidId);
+    const fromWheel = (k && k.wheelBonusPoints) || 0;
+    const fromEnglish = (k && k.engBonusPoints) || 0;
+    const fromBirthday = (k && k.birthdayBonusPoints) || 0;
+    return fromTasks + fromWheel + fromEnglish + fromBirthday;
   }
   function penaltyPoints(kidId){
     return penalties.filter(p => p.kidId === kidId).reduce((s,p)=> s + p.points, 0);
