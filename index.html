@@ -298,6 +298,7 @@
   </div>
 
   <div class="view" id="view-board">
+    <div id="birthdayReminderBox"></div>
     <div class="section-head"><h2>Bảng xếp hạng</h2>
       <button class="ghost-btn" id="resetAllBtn">↺ Đặt lại điểm</button>
     </div>
@@ -350,6 +351,9 @@
   <div class="sheet">
     <h3 id="kidModalTitle">Thêm thành viên</h3>
     <div class="field"><label>Tên bé</label><input type="text" id="kidNameInput" placeholder="VD: Bin"></div>
+    <div class="field"><label>Họ và tên đầy đủ (tuỳ chọn)</label><input type="text" id="kidFullNameInput" placeholder="VD: Nguyễn Văn Bin"></div>
+    <div class="field"><label>Ngày tháng năm sinh (tuỳ chọn)</label><input type="date" id="kidBirthDateInput"></div>
+    <div id="kidZodiacPreview" style="margin-bottom:6px;"></div>
     <div class="field"><label>Biệt danh ngộ nghĩnh (tuỳ chọn)</label><input type="text" id="kidNicknameInput" placeholder="VD: Sếp nhỏ, Boss tí hon..."></div>
     <div class="field"><label>Chọn hình đại diện</label><div id="kidAvatarPick"></div></div>
     <div class="field"><label>Chọn khung hình</label><div class="frame-pick" id="kidFramePick"></div></div>
@@ -665,6 +669,78 @@
   }
   function todayKey(){ const d = new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
   function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  /* ============ HỒ SƠ & SINH NHẬT: cung hoàng đạo + nhắc nhở cho bố mẹ ============ */
+  const ZODIAC_SIGNS = [
+    { key:'aries', name:'Bạch Dương', em:'♈', from:[3,21], to:[4,19], desc:'Bé là một chiến binh nhỏ dũng cảm, thích xông pha và làm việc gì cũng nhanh nhảu đi đầu.' },
+    { key:'taurus', name:'Kim Ngưu', em:'♉', from:[4,20], to:[5,20], desc:'Bé là người bạn đáng tin cậy, kiên trì và rất chăm chỉ khi đã quyết tâm làm gì đó.' },
+    { key:'gemini', name:'Song Tử', em:'♊', from:[5,21], to:[6,20], desc:'Bé thông minh, lanh lợi và có trí tò mò vô tận, thích trò chuyện và học điều mới rất nhanh.' },
+    { key:'cancer', name:'Cự Giải', em:'♋', from:[6,21], to:[7,22], desc:'Bé có trái tim ấm áp, giàu tình cảm và rất biết quan tâm đến mọi người xung quanh.' },
+    { key:'leo', name:'Sư Tử', em:'♌', from:[7,23], to:[8,22], desc:'Bé tự tin, rạng rỡ và luôn là "ngôi sao" thu hút mọi ánh nhìn, rất hào phóng với bạn bè.' },
+    { key:'virgo', name:'Xử Nữ', em:'♍', from:[8,23], to:[9,22], desc:'Bé cẩn thận, gọn gàng và luôn để ý từng chi tiết nhỏ, làm việc gì cũng chỉn chu.' },
+    { key:'libra', name:'Thiên Bình', em:'♎', from:[9,23], to:[10,22], desc:'Bé hoà đồng, lịch sự và luôn muốn mọi người xung quanh vui vẻ, công bằng với nhau.' },
+    { key:'scorpio', name:'Bọ Cạp', em:'♏', from:[10,23], to:[11,21], desc:'Bé mạnh mẽ, sâu sắc và một khi đã quyết tâm điều gì thì làm đến cùng, rất trung thành với bạn bè.' },
+    { key:'sagittarius', name:'Nhân Mã', em:'♐', from:[11,22], to:[12,21], desc:'Bé vui vẻ, phóng khoáng và thích khám phá những điều mới lạ như một nhà thám hiểm nhỏ.' },
+    { key:'capricorn', name:'Ma Kết', em:'♑', from:[12,22], to:[1,19], desc:'Bé kiên nhẫn, có kỷ luật và biết đặt mục tiêu cho riêng mình dù còn nhỏ tuổi.' },
+    { key:'aquarius', name:'Bảo Bình', em:'♒', from:[1,20], to:[2,18], desc:'Bé sáng tạo, độc đáo và luôn có những ý tưởng "không giống ai" rất thú vị.' },
+    { key:'pisces', name:'Song Ngư', em:'♓', from:[2,19], to:[3,20], desc:'Bé giàu trí tưởng tượng, nhạy cảm và có trái tim rất nhân hậu, dễ đồng cảm với người khác.' },
+  ];
+  function getZodiacSign(month, day){
+    for(const z of ZODIAC_SIGNS){
+      const [fm,fd] = z.from, [tm,td] = z.to;
+      if(fm===tm){ if(month===fm && day>=fd && day<=td) return z; }
+      else if(fm < tm){ if((month===fm && day>=fd) || (month===tm && day<=td) || (month>fm && month<tm)) return z; }
+      else { if((month===fm && day>=fd) || (month===tm && day<=td)) return z; }
+    }
+    return null;
+  }
+  function parseBirthDate(str){
+    if(!str) return null;
+    const parts = str.split('-');
+    if(parts.length!==3) return null;
+    const y = parseInt(parts[0],10), m = parseInt(parts[1],10), d = parseInt(parts[2],10);
+    if(!y||!m||!d) return null;
+    return {y,m,d};
+  }
+  // Số ngày còn lại tới lần sinh nhật tới gần nhất (0 = hôm nay)
+  function daysUntilNextBirthday(bd){
+    const today = new Date(); today.setHours(0,0,0,0);
+    let next = new Date(today.getFullYear(), bd.m-1, bd.d);
+    if(next < today){ next = new Date(today.getFullYear()+1, bd.m-1, bd.d); }
+    return Math.round((next - today) / 86400000);
+  }
+  function renderBirthdayReminder(){
+    const box = $('birthdayReminderBox');
+    if(!box) return;
+    const withBd = kids.map(k=>({k, bd: parseBirthDate(k.birthDate)})).filter(x=>x.bd);
+    if(withBd.length===0){ box.innerHTML = ''; return; }
+    const today = new Date();
+    const todays = withBd.filter(x=> x.bd.m===(today.getMonth()+1) && x.bd.d===today.getDate());
+    const upcoming = withBd.filter(x=> !todays.includes(x))
+      .map(x=> ({...x, daysLeft: daysUntilNextBirthday(x.bd)}))
+      .filter(x=> x.daysLeft<=14)
+      .sort((a,b)=> a.daysLeft-b.daysLeft);
+    let html = '';
+    todays.forEach(({k, bd})=>{
+      const age = today.getFullYear() - bd.y;
+      html += `<div class="lvl-banner" style="background:linear-gradient(135deg,#FFE9A8,#FFC93C); margin-bottom:10px;"><span class="art">🎂</span><div class="txt"><b>Hôm nay là sinh nhật bé ${escapeHtml(displayName(k))}!</b><span>Bé tròn ${age} tuổi hôm nay — đừng quên chúc mừng con nhé! Trong app "Của Con", bé cũng sẽ được nhận quà (điểm + lượt chăm sóc linh vật) và có thể nhắn điều ước cho bố mẹ ở khung Chat.</span></div></div>`;
+    });
+    if(upcoming.length>0){
+      html += `<div class="note-box" style="margin-bottom:10px;"><b>🎈 Sinh nhật sắp tới:</b><br>` + upcoming.map(({k,daysLeft})=> `${escapeHtml(displayName(k))} — còn ${daysLeft} ngày nữa`).join('<br>') + `</div>`;
+    }
+    box.innerHTML = html;
+  }
+  function renderKidZodiacPreview(birthDateStr){
+    const box = $('kidZodiacPreview');
+    if(!box) return;
+    const bd = parseBirthDate(birthDateStr);
+    if(!bd){ box.innerHTML = ''; return; }
+    const z = getZodiacSign(bd.m, bd.d);
+    if(!z){ box.innerHTML = ''; return; }
+    box.innerHTML = `<div class="note-box" style="margin-bottom:0; text-align:left;">${z.em} Cung <b>${z.name}</b> — ${z.desc}</div>`;
+  }
+  $('kidBirthDateInput').addEventListener('change', ()=> renderKidZodiacPreview($('kidBirthDateInput').value));
+
   function showToast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=> t.classList.remove('show'), 1800); }
 
   /* ============ SETUP / CONNECTION ============ */
@@ -905,6 +981,7 @@
     renderConfirm();
     renderBoard();
     renderMembers();
+    renderBirthdayReminder();
     maybeAwardStreakBonuses();
     const pc = pendingCount();
     const badge = $('pendingBadge');
@@ -1092,7 +1169,10 @@
       const row = document.createElement('div');
       row.className = 'member-row';
       const nickTxt = (k.nickname && k.nickname.trim()) ? ` <span style="color:var(--ink-soft); font-weight:700; font-size:11px;">"${escapeHtml(k.nickname.trim())}"</span>` : '';
-      row.innerHTML = `<div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div><div class="nm">${escapeHtml(k.name)}${nickTxt}</div><span class="pts">${totalPoints(k.id)}đ</span><button class="icon-btn" data-penalty="${k.id}" title="Trừ điểm" style="background:rgba(255,107,94,0.15); color:var(--coral);">⚠️</button><button class="icon-btn" data-edit="${k.id}">✏️</button>`;
+      const bd = parseBirthDate(k.birthDate);
+      const z = bd ? getZodiacSign(bd.m, bd.d) : null;
+      const zodTxt = z ? ` <span style="color:var(--ink-soft); font-weight:700; font-size:11px;">${z.em} ${z.name}</span>` : '';
+      row.innerHTML = `<div class="av-wrap"><div class="av" style="background:${k.color}; ${frame.style}">${k.avatar}</div>${frame.badge ? `<span class="frame-badge">${frame.badge}</span>` : ''}</div><div class="nm">${escapeHtml(k.name)}${nickTxt}${zodTxt}</div><span class="pts">${totalPoints(k.id)}đ</span><button class="icon-btn" data-penalty="${k.id}" title="Trừ điểm" style="background:rgba(255,107,94,0.15); color:var(--coral);">⚠️</button><button class="icon-btn" data-edit="${k.id}">✏️</button>`;
       list.appendChild(row);
     });
     list.querySelectorAll('[data-edit]').forEach(b=> b.addEventListener('click', ()=> openKidModal(b.dataset.edit)));
@@ -1177,6 +1257,9 @@
     $('kidModalTitle').textContent = isEdit ? 'Sửa thành viên' : 'Thêm thành viên';
     const k = isEdit ? kids.find(x=>x.id===kidId) : {name:'', avatar: KID_EMOJIS[0], color: KID_COLORS[0], frame:'none', nickname:'', pet: PETS[0].id};
     $('kidNameInput').value = k.name;
+    $('kidFullNameInput').value = k.fullName || '';
+    $('kidBirthDateInput').value = k.birthDate || '';
+    renderKidZodiacPreview(k.birthDate || '');
     $('kidNicknameInput').value = k.nickname || '';
     const kidLvlIdx = isEdit ? levelIdxFor(totalPoints(kidId)) : 0;
 
@@ -1235,9 +1318,11 @@
     $('saveKidBtn').onclick = async ()=>{
       const name = $('kidNameInput').value.trim();
       const nickname = $('kidNicknameInput').value.trim();
+      const fullName = $('kidFullNameInput').value.trim();
+      const birthDate = $('kidBirthDateInput').value;
       if(!name){ showToast('Nhập tên bé nhé!'); return; }
-      if(isEdit){ await db.collection('kids').doc(kidId).update({name, nickname, avatar: selAv, color: selColor, frame: selFrame, pet: selPet, activePet: selPet}); }
-      else { await db.collection('kids').add({name, nickname, avatar: selAv, color: selColor, frame: selFrame, pet: selPet, activePet: selPet, createdAt: Date.now()}); }
+      if(isEdit){ await db.collection('kids').doc(kidId).update({name, nickname, fullName, birthDate, avatar: selAv, color: selColor, frame: selFrame, pet: selPet, activePet: selPet}); }
+      else { await db.collection('kids').add({name, nickname, fullName, birthDate, avatar: selAv, color: selColor, frame: selFrame, pet: selPet, activePet: selPet, createdAt: Date.now()}); }
       $('kidOverlay').classList.remove('show');
     };
     $('kidOverlay').classList.add('show');
